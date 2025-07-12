@@ -1,0 +1,1246 @@
+<html lang="bn" class="dark"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCQ মডেল টেস্ট</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Hind+Siliguri:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+    <script>
+        // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+    <style>
+        /* Custom Styles for a Premium Look */
+        body {
+            font-family: 'Inter', 'Hind Siliguri', sans-serif;
+            background-color: #f8fafc; /* Fallback color */
+            background-image: linear-gradient(to bottom right, #f1f5f9, #eef2ff); /* Subtle gradient for light mode */
+            transition: background-color 0.3s ease-in-out;
+        }
+        html.dark body {
+            background-color: #0f172a; /* Fallback color */
+            background-image: linear-gradient(to bottom right, #0f172a, #1e293b); /* Subtle gradient for dark mode */
+        }
+        .screen {
+            display: none;
+        }
+        .screen.active {
+            display: block;
+            animation: slideInUp 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .card {
+            transition: all 0.3s ease-in-out;
+            border: 1px solid #e2e8f0; /* slate-200 */
+        }
+        .dark .card {
+            border-color: #1e293b; /* slate-800 */
+        }
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            border-color: #3b82f6; /* blue-500 */
+        }
+        .dark .card:hover {
+            border-color: #3b82f6; /* blue-500 */
+            background-color: #1e293b; /* slate-800 */
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            transition: all 0.25s ease-in-out;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background-color: #2563eb; /* blue-600 */
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2), 0 2px 4px -2px rgba(37, 99, 235, 0.1);
+        }
+        .btn-primary:hover {
+            background-color: #1d4ed8; /* blue-700 */
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.2), 0 4px 6px -4px rgba(37, 99, 235, 0.1);
+        }
+        .btn-secondary {
+            background-color: #e2e8f0; /* slate-200 */
+            color: #1e293b; /* slate-800 */
+        }
+        .dark .btn-secondary {
+            background-color: #334155; /* slate-700 */
+            color: #f1f5f9; /* slate-100 */
+        }
+        .btn-secondary:hover {
+            background-color: #cbd5e1; /* slate-300 */
+        }
+        .dark .btn-secondary:hover {
+            background-color: #475569; /* slate-600 */
+        }
+        .option-btn {
+            transition: all 0.2s ease-in-out;
+            border-width: 2px;
+        }
+        .option-btn.selected {
+            background-color: #3b82f6 !important;
+            color: white !important;
+            border-color: #2563eb !important;
+            transform: scale(1.02);
+        }
+        .option-btn:not(:disabled):hover {
+             border-color: #60a5fa; /* blue-400 */
+             background-color: #eff6ff; /* blue-50 */
+        }
+        .dark .option-btn:not(:disabled):hover {
+            border-color: #60a5fa; /* blue-400 */
+            background-color: #1e293b; /* slate-800 */
+        }
+        .option-btn:disabled { cursor: not-allowed; }
+        .option-btn.correct {
+            background-color: #16a34a !important;
+            color: white !important;
+            border-color: #15803d !important;
+        }
+        .option-btn.wrong {
+            background-color: #dc2626 !important;
+            color: white !important;
+            border-color: #b91c1c !important;
+        }
+        #progress-bar {
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .loader {
+            border: 4px solid #e5e7eb;
+            border-radius: 50%;
+            border-top: 4px solid #3b82f6;
+            width: 32px;
+            height: 32px;
+            animation: spin 1s linear infinite;
+        }
+        .dark .loader {
+            border-color: #334155; /* slate-700 */
+            border-top-color: #60a5fa; /* blue-400 */
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .gemini-btn {
+            background: linear-gradient(45deg, #4285F4, #9b72cb, #d96570, #f2a60c);
+            background-size: 400% 400%;
+            animation: gradient 10s ease infinite;
+            color: white;
+            border: none;
+        }
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        #modal {
+            background-color: rgba(15, 23, 42, 0.6); /* slate-900 with opacity */
+            backdrop-filter: blur(4px);
+        }
+        #modal-content {
+            animation: modal-pop-in 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        @keyframes modal-pop-in {
+            from { opacity: 0; transform: scale(0.9) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+    </style>
+<!-- <style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.16 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-0{inset:0px}.right-0{right:0px}.top-0{top:0px}.z-50{z-index:50}.mb-6{margin-bottom:1.5rem}.mb-8{margin-bottom:2rem}.mr-2{margin-right:0.5rem}.mt-3{margin-top:0.75rem}.mt-8{margin-top:2rem}.mr-5{margin-right:1.25rem}.mb-1{margin-bottom:0.25rem}.flex{display:flex}.grid{display:grid}.hidden{display:none}.h-2\.5{height:0.625rem}.h-5{height:1.25rem}.max-h-\[90vh\]{max-height:90vh}.min-h-screen{min-height:100vh}.min-h-\[80px\]{min-height:80px}.w-5{width:1.25rem}.w-full{width:100%}.max-w-4xl{max-width:56rem}.max-w-lg{max-width:32rem}.cursor-pointer{cursor:pointer}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.flex-col{flex-direction:column}.items-center{align-items:center}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-4{gap:1rem}.gap-6{gap:1.5rem}.space-y-8 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(2rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(2rem * var(--tw-space-y-reverse))}.divide-y > :not([hidden]) ~ :not([hidden]){--tw-divide-y-reverse:0;border-top-width:calc(1px * calc(1 - var(--tw-divide-y-reverse)));border-bottom-width:calc(1px * var(--tw-divide-y-reverse))}.divide-slate-200 > :not([hidden]) ~ :not([hidden]){--tw-divide-opacity:1;border-color:rgb(226 232 240 / var(--tw-divide-opacity, 1))}.overflow-y-auto{overflow-y:auto}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:0.5rem}.rounded-xl{border-radius:0.75rem}.border-b{border-bottom-width:1px}.border-t{border-top-width:1px}.border-slate-200{--tw-border-opacity:1;border-color:rgb(226 232 240 / var(--tw-border-opacity, 1))}.bg-blue-100{--tw-bg-opacity:1;background-color:rgb(219 234 254 / var(--tw-bg-opacity, 1))}.bg-blue-600{--tw-bg-opacity:1;background-color:rgb(37 99 235 / var(--tw-bg-opacity, 1))}.bg-green-600{--tw-bg-opacity:1;background-color:rgb(22 163 74 / var(--tw-bg-opacity, 1))}.bg-slate-200{--tw-bg-opacity:1;background-color:rgb(226 232 240 / var(--tw-bg-opacity, 1))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.p-4{padding:1rem}.p-2\.5{padding:0.625rem}.p-6{padding:1.5rem}.px-4{padding-left:1rem;padding-right:1rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-4{padding-top:1rem;padding-bottom:1rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.py-6{padding-top:1.5rem;padding-bottom:1.5rem}.pb-4{padding-bottom:1rem}.pr-4{padding-right:1rem}.pt-4{padding-top:1rem}.pt-6{padding-top:1.5rem}.text-center{text-align:center}.text-2xl{font-size:1.5rem;line-height:2rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-5xl{font-size:3rem;line-height:1}.text-3xl{font-size:1.875rem;line-height:2.25rem}.font-bold{font-weight:700}.font-semibold{font-weight:600}.leading-tight{line-height:1.25}.tracking-tight{letter-spacing:-0.025em}.text-slate-800{--tw-text-opacity:1;color:rgb(30 41 59 / var(--tw-text-opacity, 1))}.text-blue-600{--tw-text-opacity:1;color:rgb(37 99 235 / var(--tw-text-opacity, 1))}.text-blue-700{--tw-text-opacity:1;color:rgb(29 78 216 / var(--tw-text-opacity, 1))}.text-green-600{--tw-text-opacity:1;color:rgb(22 163 74 / var(--tw-text-opacity, 1))}.text-red-600{--tw-text-opacity:1;color:rgb(220 38 38 / var(--tw-text-opacity, 1))}.text-slate-500{--tw-text-opacity:1;color:rgb(100 116 139 / var(--tw-text-opacity, 1))}.text-slate-600{--tw-text-opacity:1;color:rgb(71 85 105 / var(--tw-text-opacity, 1))}.text-slate-900{--tw-text-opacity:1;color:rgb(15 23 42 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-md{--tw-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.hover\:bg-green-700:hover{--tw-bg-opacity:1;background-color:rgb(21 128 61 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-100:hover{--tw-bg-opacity:1;background-color:rgb(241 245 249 / var(--tw-bg-opacity, 1))}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}.focus\:ring-4:focus{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(4px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.focus\:ring-slate-200:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(226 232 240 / var(--tw-ring-opacity, 1))}@media (min-width: 640px){.sm\:p-8{padding:2rem}}@media (min-width: 768px){.md\:mb-12{margin-bottom:3rem}.md\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.md\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.md\:divide-x > :not([hidden]) ~ :not([hidden]){--tw-divide-x-reverse:0;border-right-width:calc(1px * var(--tw-divide-x-reverse));border-left-width:calc(1px * calc(1 - var(--tw-divide-x-reverse)))}.md\:divide-y-0 > :not([hidden]) ~ :not([hidden]){--tw-divide-y-reverse:0;border-top-width:calc(0px * calc(1 - var(--tw-divide-y-reverse)));border-bottom-width:calc(0px * var(--tw-divide-y-reverse))}.md\:py-0{padding-top:0px;padding-bottom:0px}.md\:text-5xl{font-size:3rem;line-height:1}.md\:text-xl{font-size:1.25rem;line-height:1.75rem}}@media (min-width: 1024px){.lg\:grid-cols-4{grid-template-columns:repeat(4, minmax(0, 1fr))}}@media (prefers-color-scheme: dark){.dark\:divide-slate-700 > :not([hidden]) ~ :not([hidden]){--tw-divide-opacity:1;border-color:rgb(51 65 85 / var(--tw-divide-opacity, 1))}.dark\:border-slate-700{--tw-border-opacity:1;border-color:rgb(51 65 85 / var(--tw-border-opacity, 1))}.dark\:bg-blue-900\/50{background-color:rgb(30 58 138 / 0.5)}.dark\:bg-slate-700{--tw-bg-opacity:1;background-color:rgb(51 65 85 / var(--tw-bg-opacity, 1))}.dark\:bg-slate-800{--tw-bg-opacity:1;background-color:rgb(30 41 59 / var(--tw-bg-opacity, 1))}.dark\:text-slate-200{--tw-text-opacity:1;color:rgb(226 232 240 / var(--tw-text-opacity, 1))}.dark\:text-blue-300{--tw-text-opacity:1;color:rgb(147 197 253 / var(--tw-text-opacity, 1))}.dark\:text-slate-100{--tw-text-opacity:1;color:rgb(241 245 249 / var(--tw-text-opacity, 1))}.dark\:text-slate-400{--tw-text-opacity:1;color:rgb(148 163 184 / var(--tw-text-opacity, 1))}.dark\:text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.dark\:hover\:bg-slate-700:hover{--tw-bg-opacity:1;background-color:rgb(51 65 85 / var(--tw-bg-opacity, 1))}.dark\:focus\:ring-slate-700:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(51 65 85 / var(--tw-ring-opacity, 1))}}</style></head> -->
+<body class="text-slate-800 dark:text-slate-200 min-h-screen flex items-center justify-center p-4">
+
+    <div id="app-container" class="w-full max-w-4xl relative">
+        <div class="absolute top-0 right-0 pt-4 pr-4">
+            <button id="theme-toggle" type="button" class="text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 focus:outline-none focus:ring-4 focus:ring-slate-200 dark:focus:ring-slate-700 rounded-lg text-sm p-2.5">
+                <svg id="theme-toggle-dark-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                <svg id="theme-toggle-light-icon" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 5.05a1 1 0 00-1.414 1.414l.707.707a1 1 0 001.414-1.414l-.707-.707zm-.707 8.486a1 1 0 011.414 0l.707.707a1 1 0 01-1.414 1.414l-.707-.707a1 1 0 010-1.414zM3 11a1 1 0 100-2H2a1 1 0 100 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+            </button>
+        </div>
+
+        <!-- Home Screen: Subject Selection -->
+        <div id="home-screen" class="screen">
+            <header class="text-center mb-8 md:mb-12">
+                <h1 class="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white tracking-tight">MCQ মডেল টেস্ট</h1>
+                <p class="text-slate-600 dark:text-slate-400 mt-3 text-lg">আপনার জ্ঞান পরীক্ষা এবং উন্নত করার জন্য প্রস্তুত?</p>
+            </header>
+            <div id="subject-selection" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="card bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg cursor-pointer" data-subject="Bangla">
+                        <div class="flex items-center">
+                            <span class="text-5xl mr-5">🇧 </span>
+                            <div>
+                                <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Bangla</h2>
+                                <p class="text-slate-500 dark:text-slate-400">5 মডেল টেস্ট</p>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="card bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg cursor-pointer" data-subject="ICT">
+                        <div class="flex items-center">
+                            <span class="text-5xl mr-5">💻</span>
+                            <div>
+                                <h2 class="text-2xl font-bold text-slate-900 dark:text-white">ICT</h2>
+                                <p class="text-slate-500 dark:text-slate-400">5 মডেল টেস্ট</p>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="card bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg cursor-pointer" data-subject="English">
+                        <div class="flex items-center">
+                            <span class="text-5xl mr-5">🇬🇧</span>
+                            <div>
+                                <h2 class="text-2xl font-bold text-slate-900 dark:text-white">English</h2>
+                                <p class="text-slate-500 dark:text-slate-400">5 মডেল টেস্ট</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+        <!-- Model Test Selection Screen -->
+        <div id="model-test-screen" class="screen active">
+            <header class="mb-8 md:mb-12">
+                <button id="back-to-home" class="btn btn-secondary mb-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                    বিষয় নির্বাচনে ফিরে যান
+                </button>
+                <h1 id="model-test-title" class="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white tracking-tight">Bangla মডেল টেস্ট</h1>
+                <p class="text-slate-600 dark:text-slate-400 mt-3 text-lg">শুরু করার জন্য একটি মডেল টেস্ট নির্বাচন করুন।</p>
+            </header>
+            <div id="model-test-selection" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <button id="generate-new-test-btn" class="gemini-btn card text-white font-semibold py-6 px-2 rounded-lg shadow-lg flex flex-col items-center justify-center text-center">
+                    <span class="text-3xl mb-1">✨</span>
+                    <span class="leading-tight">নতুন টেস্ট তৈরি করুন</span>
+                </button>
+            
+                    <button class="model-test-btn card bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-semibold py-6 px-2 rounded-lg shadow-md flex items-center justify-center text-center" data-test="Model Test 1">
+                        Model Test 1
+                    </button>
+                
+                    <button class="model-test-btn card bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-semibold py-6 px-2 rounded-lg shadow-md flex items-center justify-center text-center" data-test="Model Test 2">
+                        Model Test 2
+                    </button>
+                
+                    <button class="model-test-btn card bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-semibold py-6 px-2 rounded-lg shadow-md flex items-center justify-center text-center" data-test="Model Test 3">
+                        Model Test 3
+                    </button>
+                
+                    <button class="model-test-btn card bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-semibold py-6 px-2 rounded-lg shadow-md flex items-center justify-center text-center" data-test="Model Test 4">
+                        Model Test 4
+                    </button>
+                
+                    <button class="model-test-btn card bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-semibold py-6 px-2 rounded-lg shadow-md flex items-center justify-center text-center" data-test="Model Test 5">
+                        Model Test 5
+                    </button>
+                </div>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="screen">
+            <div class="bg-white dark:bg-slate-800 p-6 sm:p-8 rounded-xl shadow-2xl">
+                <div id="quiz-header" class="flex justify-between items-center border-b border-slate-200 dark:border-slate-700 pb-4 mb-6">
+                    <div>
+                        <h2 id="quiz-subject-title" class="text-xl font-bold text-slate-900 dark:text-white"></h2>
+                        <p id="question-counter" class="text-sm text-slate-500 dark:text-slate-400"></p>
+                    </div>
+                    <div id="timer" class="text-lg font-bold bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300 px-4 py-2 rounded-lg">20:00</div>
+                </div>
+
+                <div id="progress-bar-container" class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2.5 mb-8">
+                    <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full"></div>
+                </div>
+
+                <div id="question-container">
+                    <p id="question-text" class="text-lg md:text-xl font-semibold mb-8 min-h-[80px] text-slate-800 dark:text-slate-100"></p>
+                    <div id="options-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Options will be injected here -->
+                    </div>
+                </div>
+
+                <div id="quiz-footer" class="mt-8 pt-6 border-t border-slate-200 dark:border-slate-700 flex justify-end">
+                    <button id="next-btn" class="btn btn-primary">পরবর্তী</button>
+                    <button id="submit-btn" class="btn btn-primary bg-green-600 hover:bg-green-700 hidden">জমা দিন</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="result-screen" class="screen">
+             <header class="text-center mb-8">
+                <h1 class="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white tracking-tight">টেস্টের ফলাফল</h1>
+                <p id="result-subtitle" class="text-slate-600 dark:text-slate-400 mt-3 text-lg"></p>
+            </header>
+
+            <div class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg mb-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center divide-y md:divide-y-0 md:divide-x divide-slate-200 dark:divide-slate-700">
+                    <div class="py-4 md:py-0">
+                        <p class="text-sm text-slate-500 dark:text-slate-400">সঠিক উত্তর</p>
+                        <p id="correct-answers" class="text-4xl font-bold text-green-600">0</p>
+                    </div>
+                    <div class="py-4 md:py-0">
+                        <p class="text-sm text-slate-500 dark:text-slate-400">ভুল উত্তর</p>
+                        <p id="wrong-answers" class="text-4xl font-bold text-red-600">0</p>
+                    </div>
+                    <div class="py-4 md:py-0">
+                        <p class="text-sm text-slate-500 dark:text-slate-400">আপনার স্কোর</p>
+                        <p id="total-score" class="text-4xl font-bold text-blue-600">0 / 25</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg">
+                <h3 class="text-2xl font-bold mb-6 text-slate-800 dark:text-white">উত্তর পর্যালোচনা</h3>
+                <div id="result-review" class="space-y-8">
+                    <!-- Review content will be injected here -->
+                </div>
+            </div>
+
+            <div class="mt-8 flex justify-center gap-4">
+                <button id="try-again-btn" class="btn btn-primary">অন্য টেস্ট দিন</button>
+                <button id="go-home-btn" class="btn btn-secondary">হোম পেজে যান</button>
+            </div>
+        </div>
+        
+        <!-- Generic Modal -->
+        <div id="modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
+            <div id="modal-overlay" class="absolute inset-0"></div>
+            <div id="modal-content" class="relative bg-white dark:bg-slate-800 rounded-xl shadow-2xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto">
+                <!-- Modal content goes here -->
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+    // --- DATABASE OF QUESTIONS ---
+    const mcqData = {
+        "Bangla": {
+            "icon": "🇧 ",
+            "tests": {
+                "Model Test 1": [
+                    { question: "‘নক্ষত্রের রাত’ গল্পে “নক্ষত্র” কী বোঝায়?", options: { a: "অন্ধকার", b: "আশা ও স্বপ্ন", c: "দুঃখ", d: "অবসাদ" }, answer: "b" },
+                    { question: "“তিনটি ছেলে” গল্পে লেখকের মূল বক্তব্য কী?", options: { a: "শিক্ষা জীবনের গুরুত্ব", b: "সমাজের বৈষম্য", c: "পারিবারিক সম্পর্ক", d: "গ্রামীণ সংস্কৃতি" }, answer: "b" },
+                    { question: "'কবর' নাটকে “মুনসেফ সাহেব” চরিত্রটি কী বোঝায়?", options: { a: "আজাদ", b: "রক্ষণশীল সমাজের প্রতীক", c: "মায়ের চরিত্র", d: "কিশোর" }, answer: "b" },
+                    { question: "“নির্বাসিতের গান” কবিতায় কোন অনুভূতি সবচেয়ে তীব্র?", options: { a: "স্বাধীনতা", b: "দুঃখ", c: "মাতৃভূমির প্রতি ভালোবাসা", d: "সঙ্গীহীনতা" }, answer: "c" },
+                    { question: "“আত্মজা ও একটি করবী গাছ” গল্পে করবী গাছ কোন প্রতীক?", options: { a: "মৃত্যু", b: "সংগ্রাম", c: "আত্মত্যাগ", d: "ভালোবাসা" }, answer: "c" },
+                    { question: "‘সোনার তরী’ কবিতায় ‘তরী’ কোন প্রতীক?", options: { a: "জীবন", b: "আত্মা", c: "ভাগ্য", d: "পরকাল" }, answer: "b" },
+                    { question: "‘বঙ্গবন্ধু শেখ মুজিব’ রচনায় লেখকের দৃষ্টি কোন দিকে?", options: { a: "রাজনীতি", b: "ভাষা আন্দোলন", c: "বঙ্গবন্ধুর অবদান", d: "দেশভাগ" }, answer: "c" },
+                    { question: "‘মা’ কবিতায় “মা” কোন রূপকে ব্যবহৃত?", options: { a: "প্রাচীন নারী", b: "চিরন্তন মমতা", c: "দুঃখ", d: "অভাব" }, answer: "b" },
+                    { question: "'সারেং বৌ' গল্পে নায়িকার মনোভাব কেমন ছিল?", options: { a: "অবলা", b: "স্বাধীনচেতা", c: "সংগ্রামী ও প্রতীক্ষায় অনড়", d: "অসহায়" }, answer: "c" },
+                    { question: "‘নির্বাসিত’ গল্পের কেন্দ্রীয় ভাব কী?", options: { a: "স্থানচ্যুতি", b: "রাজনৈতিক নিপীড়ন", c: "আত্মহত্যা", d: "মৃত্যু" }, answer: "b" },
+                    { question: "‘ক্রীতদাসের হাসি’ গল্পে হাসির প্রতীক কী?", options: { a: "সাহসিকতা", b: "মনুষ্যত্ব ও মুক্তির আকাঙ্ক্ষা", c: "প্রেম", d: "জ্ঞান" }, answer: "b" },
+                    { question: "‘প্রথম শিকার’ গল্পে শিশুর মনস্তত্ত্ব কীভাবে ফুটে উঠেছে?", options: { a: "কল্পনা", b: "বাস্তবতা", c: "কল্পনার বাস্তবতা", d: "হতাশা" }, answer: "c" },
+                    { question: "‘বিদ্রোহী’ কবিতায় কবির আত্মবক্তৃতা কেমন?", options: { a: "প্রেমিক", b: "যোদ্ধা", c: "বিশ্বব্রহ্মাণ্ডের বিদ্রোহী রূপে", d: "দার্শনিক" }, answer: "c" },
+                    { question: "‘একটি তুলসী গাছের গল্প’ তুলসী গাছের প্রতীক কী?", options: { a: "ঐতিহ্য", b: "নারীর আত্মবলিদান ও সংস্কার", c: "ধর্ম", d: "জীবনধারা" }, answer: "b" },
+                    { question: "“হযরত মুহাম্মদ (সা.)” প্রবন্ধে তাঁর মহান গুণ কোনটি?", options: { a: "জ্ঞান", b: "সাহস", c: "মানবপ্রেম ও সহনশীলতা", d: "ঐশী ক্ষমতা" }, answer: "c" },
+                    { question: "“তিনটি ছেলে” গল্পে ‘তিনটি’ সংখ্যা কী বোঝায়?", options: { a: "সংখ্যা", b: "ভিন্ন ভিন্ন শ্রেণির প্রতীক", c: "সময়", d: "বন্ধুতা" }, answer: "b" },
+                    { question: "“প্রবাসী” কবিতায় কবি কী অনুভব করেন?", options: { a: "আত্মহীনতা", b: "মাতৃভূমি থেকে বিচ্ছিন্নতা", c: "প্রেমহীনতা", d: "শূন্য চিন্তা" }, answer: "b" },
+                    { question: "‘বৃক্ষ তোমার নাম কী?’ – এখানে বৃক্ষ কিসের প্রতীক?", options: { a: "প্রকৃতি", b: "অবদান রেখে নীরব থাকা ব্যক্তি", c: "গ্রাম", d: "ছাত্র" }, answer: "b" },
+                    { question: "“আদর্শ শিক্ষক” রচনায় আদর্শ শিক্ষক কেমন হওয়া উচিত?", options: { a: "নিষ্ঠাহীন", b: "দায়িত্বশীল ও নীতিবান", c: "অবহেলাকারী", d: "কঠোর" }, answer: "b" },
+                    { question: "'নিমগ্ন নরনারী' গল্পে “নিমগ্ন” শব্দটি কী বোঝায়?", options: { a: "অবহেলা", b: "আত্মমগ্নতা", c: "অনাস্থা", d: "আত্মত্যাগ" }, answer: "b" },
+                    { question: "‘নকশাল আন্দোলন’ প্রবন্ধে আন্দোলনের কারণ কী?", options: { a: "রাজনৈতিক বিদ্রোহ", b: "কৃষক ও শ্রমিকের অধিকার", c: "ধর্মীয় বৈষম্য", d: "ভাষা আন্দোলন" }, answer: "b" },
+                    { question: "‘কোনো এক গাঁয়ের বধূ’ কবিতায় প্রধান প্রতীক কী?", options: { a: "গৃহিণী", b: "সংগ্রামী নারী", c: "অবলা নারী", d: "মাতৃত্ব" }, answer: "b" },
+                    { question: "‘ভিখারিনী’ গল্পে কে সমাজের শিকার?", options: { a: "পল্লীবন্ধু", b: "ভিখারিনী", c: "কমলা", d: "বাড়িওয়ালা" }, answer: "c" },
+                    { question: "'আদর্শ মানুষ' রচনায় মানুষকে কেমন হতে বলা হয়েছে?", options: { a: "অলস", b: "নৈতিক ও আত্মবিশ্বাসী", c: "নিষ্ঠাহীন", d: "অবিশ্বাসী" }, answer: "b" },
+                    { question: "“জলপাই” গল্পে জলপাই কী বোঝায়?", options: { a: "দুঃখ", b: "স্বাধীনতার রঙ", c: "নির্যাতন", d: "শান্তি" }, answer: "b" }
+                ],
+                "Model Test 2": [
+                    { question: "‘বাঁশের সুর’ কবিতায় বাঁশের সুর কী প্রতীক?", options: { a: "দুঃখ", b: "প্রেম", c: "স্বাধীনতা", d: "স্মৃতি" }, answer: "c" },
+                    { question: "‘চাষী ও মজুর’ গল্পে প্রধান থিম কী?", options: { a: "পারিবারিক প্রেম", b: "সামাজিক বৈষম্য", c: "বন্ধুত্ব", d: "প্রতিদ্বন্দ্বিতা" }, answer: "b" },
+                    { question: "‘মায়ের প্রতীক্ষা’ কবিতায় মায়ের অনুভূতি কী?", options: { a: "আনন্দ", b: "ব্যথা ও অপেক্ষা", c: "হতাশা", d: "ক্রোধ" }, answer: "b" },
+                    { question: "‘নদীর ধারা’ গল্পের কেন্দ্রীয় বিষয় কী?", options: { a: "পরিবেশ সচেতনতা", b: "মানব কল্যাণ", c: "সমাজ পরিবর্তন", d: "রাজনৈতিক বিদ্রোহ" }, answer: "a" },
+                    { question: "‘স্বাধীনতা’ কবিতায় কবির প্রধান আবেদন কী?", options: { a: "শান্তি প্রতিষ্ঠা", b: "দেশের স্বাধীনতা রক্ষা", c: "বন্ধুত্বের গুরুত্ব", d: "শিক্ষার প্রয়োজনীয়তা" }, answer: "b" },
+                    { question: "‘শিক্ষকের আদর্শ’ প্রবন্ধে শিক্ষকের গুণাবলি কী?", options: { a: "কঠোরতা", b: "মমতা ও দায়িত্ববোধ", c: "আনুগত্য", d: "ধৈর্য" }, answer: "b" },
+                    { question: "‘রাত্রি ও স্মৃতি’ কবিতায় রাতের কোন বিশেষত্ব তুলে ধরা হয়েছে?", options: { a: "অন্ধকার", b: "শান্তি", c: "স্মৃতির উন্মেষ", d: "ভয়" }, answer: "c" },
+                    { question: "‘পাখির গান’ গল্পে পাখি কী প্রতীক?", options: { a: "স্বাধীনতা", b: "বন্ধন", c: "আশা", d: "নিঃস্ব" }, answer: "a" },
+                    { question: "‘বিদেশী’ কবিতায় বিদেশী কী বোঝানো হয়েছে?", options: { a: "অনুপ্রবেশকারী", b: "সংস্কৃতির ভিন্নতা", c: "শত্রু", d: "পরদেশি" }, answer: "b" },
+                    { question: "‘গাছের ছায়া’ প্রবন্ধে গাছের গুরুত্ব কীভাবে উপস্থাপিত?", options: { a: "খাদ্যের উৎস", b: "পরিবেশ রক্ষাকারী", c: "শক্তির প্রতীক", d: "শিক্ষার মাধ্যম" }, answer: "b" },
+                    { question: "‘মানবাধিকার’ প্রবন্ধে প্রধান কথা কী?", options: { a: "অধিকার আদায়", b: "শান্তি প্রতিষ্ঠা", c: "শোষণ মুক্তি", d: "ন্যায় বিচার" }, answer: "a" },
+                    { question: "‘স্মৃতির কাগজ’ কবিতায় স্মৃতি কাকে নির্দেশ করে?", options: { a: "অতীত", b: "বর্তমান", c: "ভবিষ্যত", d: "অনুশোচনা" }, answer: "a" },
+                    { question: "‘আশার আলো’ গল্পে আশা কী রূপে প্রকাশ পায়?", options: { a: "প্রতিদ্বন্দ্বী", b: "শক্তির উৎস", c: "আশ্রয়", d: "বন্ধন" }, answer: "b" },
+                    { question: "‘শিক্ষার গুরুত্ব’ প্রবন্ধে শিক্ষার কোন দিক আলোচিত?", options: { a: "আধ্যাত্মিকতা", b: "সামাজিক উন্নয়ন", c: "রাজনৈতিক ক্ষমতা", d: "পারিবারিক মূল্যবোধ" }, answer: "b" },
+                    { question: "‘নদী ও প্রকৃতি’ কবিতায় নদী কী রূপে দেখানো হয়েছে?", options: { a: "জীবনদাতা", b: "বিধ্বংসী", c: "শান্তিদূত", d: "সংগ্রামী" }, answer: "a" },
+                    { question: "‘মুক্তিযুদ্ধ’ প্রবন্ধে বাংলাদেশের মুক্তিযুদ্ধের সময়কাল কী?", options: { a: "১৯৭০", b: "১৯৭১", c: "১৯৬৫", d: "১৯৭৫" }, answer: "b" },
+                    { question: "‘প্রকৃতির রূপ’ গল্পে প্রকৃতির কোন দিক বিবেচনা করা হয়েছে?", options: { a: "সৌন্দর্য", b: "ভয়াবহতা", c: "জীবনের অবিচ্ছেদ্য অংশ", d: "বিদ্রোহ" }, answer: "c" },
+                    { question: "‘কর্মঠতা’ কবিতায় লেখক কী গুরুত্ব দিয়েছেন?", options: { a: "বিশ্রাম", b: "পরিশ্রম", c: "বিশুদ্ধতা", d: "শক্তি" }, answer: "b" },
+                    { question: "‘শহরের জীবন’ প্রবন্ধে শহর জীবনের কোন সমস্যা আলোচনা হয়েছে?", options: { a: "যানজট", b: "দূষণ", c: "আত্মীয়তার অভাব", d: "উচ্চশিক্ষা" }, answer: "b" },
+                    { question: "‘আনন্দমেলা’ গল্পে মেলার প্রধান আকর্ষণ কী?", options: { a: "মেলা পন্ডিত", b: "আনন্দ", c: "সাংস্কৃতিক অনুষ্ঠান", d: "খাদ্য" }, answer: "c" },
+                    { question: "‘কবির ভাব’ কবিতায় কবির মূল ভাব কী?", options: { a: "প্রেম", b: "বিদ্রোহ", c: "দুঃখ", d: "আশা" }, answer: "b" },
+                    { question: "‘মায়ার বন্ধন’ গল্পে মায়ের সম্পর্ক কেমন?", options: { a: "কঠোর", b: "মমতা পূর্ণ", c: "অবহেলা", d: "দূরত্বপূর্ণ" }, answer: "b" },
+                    { question: "‘আকাশের তারা’ কবিতায় তারা কী রূপ?", options: { a: "আশা", b: "মায়া", c: "স্মৃতি", d: "অন্ধকার" }, answer: "a" },
+                    { question: "‘শিক্ষার্থীর জীবন’ প্রবন্ধে লেখকের প্রধান বার্তা কী?", options: { a: "অধ্যবসায়", b: "বিনোদন", c: "বন্ধুত্ব", d: "সংসার" }, answer: "a" },
+                    { question: "‘পরিবেশ রক্ষা’ প্রবন্ধে পরিবেশ সংরক্ষণের প্রধান উপায় কী?", options: { a: "গাছ লাগানো", b: "প্লাস্টিক ব্যবহার বৃদ্ধি", c: "দূষণ বৃদ্ধি", d: "বন উজাড়" }, answer: "a" }
+                ],
+                "Model Test 3": [
+                    { question: "‘শিক্ষকের আদর্শ’ প্রবন্ধে শিক্ষকের গুণাবলি কী?", options: { a: "কঠোরতা", b: "মমতা ও দায়িত্ববোধ", c: "আনুগত্য", d: "ধৈর্য" }, answer: "b" },
+                    { question: "‘রাত্রি ও স্মৃতি’ কবিতায় রাতের বিশেষত্ব কী?", options: { a: "অন্ধকার", b: "শান্তি", c: "স্মৃতির উন্মেষ", d: "ভয়" }, answer: "c" },
+                    { question: "‘পাখির গান’ গল্পে পাখি কী প্রতীক?", options: { a: "স্বাধীনতা", b: "বন্ধন", c: "আশা", d: "নিঃস্ব" }, answer: "a" },
+                    { question: "‘বিদেশী’ কবিতায় বিদেশী কী বোঝানো হয়েছে?", options: { a: "অনুপ্রবেশকারী", b: "সংস্কৃতির ভিন্নতা", c: "শত্রু", d: "পরদেশি" }, answer: "b" },
+                    { question: "‘গাছের ছায়া’ প্রবন্ধে গাছের গুরুত্ব কীভাবে উপস্থাপিত?", options: { a: "খাদ্যের উৎস", b: "পরিবেশ রক্ষাকারী", c: "শক্তির প্রতীক", d: "শিক্ষার মাধ্যম" }, answer: "b" },
+                    { question: "‘মানবাধিকার’ প্রবন্ধে প্রধান কথা কী?", options: { a: "অধিকার আদায়", b: "শান্তি প্রতিষ্ঠা", c: "শোষণ মুক্তি", d: "ন্যায় বিচার" }, answer: "a" },
+                    { question: "‘স্মৃতির কাগজ’ কবিতায় স্মৃতি কাকে নির্দেশ করে?", options: { a: "অতীত", b: "বর্তমান", c: "ভবিষ্যত", d: "অনুশোচনা" }, answer: "a" },
+                    { question: "‘আশার আলো’ গল্পে আশা কী রূপে প্রকাশ পায়?", options: { a: "প্রতিদ্বন্দ্বী", b: "শক্তির উৎস", c: "আশ্রয়", d: "বন্ধন" }, answer: "b" },
+                    { question: "‘শিক্ষার গুরুত্ব’ প্রবন্ধে শিক্ষার কোন দিক আলোচিত?", options: { a: "আধ্যাত্মিকতা", b: "সামাজিক উন্নয়ন", c: "রাজনৈতিক ক্ষমতা", d: "পারিবারিক মূল্যবোধ" }, answer: "b" },
+                    { question: "‘নদী ও প্রকৃতি’ কবিতায় নদী কী রূপে দেখানো হয়েছে?", options: { a: "জীবনদাতা", b: "বিধ্বংসী", c: "শান্তিদূত", d: "সংগ্রামী" }, answer: "a" },
+                    { question: "‘মুক্তিযুদ্ধ’ প্রবন্ধে বাংলাদেশের মুক্তিযুদ্ধের সময়কাল কী?", options: { a: "১৯৭০", b: "১৯৭১", c: "১৯৬৫", d: "১৯৭৫" }, answer: "b" },
+                    { question: "‘প্রকৃতির রূপ’ গল্পে প্রকৃতির কোন দিক বিবেচনা করা হয়েছে?", options: { a: "সৌন্দর্য", b: "ভয়াবহতা", c: "জীবনের অবিচ্ছেদ্য অংশ", d: "বিদ্রোহ" }, answer: "c" },
+                    { question: "‘কর্মঠতা’ কবিতায় লেখক কী গুরুত্ব দিয়েছেন?", options: { a: "বিশ্রাম", b: "পরিশ্রম", c: "বিশুদ্ধতা", d: "শক্তি" }, answer: "b" },
+                    { question: "‘শহরের জীবন’ প্রবন্ধে শহর জীবনের কোন সমস্যা আলোচনা হয়েছে?", options: { a: "যানজট", b: "দূষণ", c: "আত্মীয়তার অভাব", d: "উচ্চশিক্ষা" }, answer: "b" },
+                    { question: "‘আনন্দমেলা’ গল্পে মেলার প্রধান আকর্ষণ কী?", options: { a: "মেলা পন্ডিত", b: "আনন্দ", c: "সাংস্কৃতিক অনুষ্ঠান", d: "খাদ্য" }, answer: "c" },
+                    { question: "‘কবির ভাব’ কবিতায় কবির মূল ভাব কী?", options: { a: "প্রেম", b: "বিদ্রোহ", c: "দুঃখ", d: "আশা" }, answer: "b" },
+                    { question: "‘মায়ার বন্ধন’ গল্পে মায়ের সম্পর্ক কেমন?", options: { a: "কঠোর", b: "মমতা পূর্ণ", c: "অবহেলা", d: "দূরত্বপূর্ণ" }, answer: "b" },
+                    { question: "‘আকাশের তারা’ কবিতায় তারা কী রূপ?", options: { a: "আশা", b: "মায়া", c: "স্মৃতি", d: "অন্ধকার" }, answer: "a" },
+                    { question: "‘শিক্ষার্থীর জীবন’ প্রবন্ধে লেখকের প্রধান বার্তা কী?", options: { a: "অধ্যবসায়", b: "বিনোদন", c: "বন্ধুত্ব", d: "সংসার" }, answer: "a" },
+                    { question: "‘পরিবেশ রক্ষা’ প্রবন্ধে পরিবেশ সংরক্ষণের প্রধান উপায় কী?", options: { a: "গাছ লাগানো", b: "প্লাস্টিক ব্যবহার বৃদ্ধি", c: "দূষণ বৃদ্ধি", d: "বন উজাড়" }, answer: "a" },
+                    { question: "‘আন্তর্জাতিক সম্পর্ক’ প্রবন্ধে প্রধান বিষয় কী?", options: { a: "দেশীয় সমস্যা", b: "শান্তি ও সহযোগিতা", c: "যুদ্ধ", d: "অর্থনীতি" }, answer: "b" },
+                    { question: "‘কৃষকের জীবন’ গল্পে কৃষকের সংগ্রামের মূল কারণ কী?", options: { a: "পাড়া-প্রতিবেশীর বিরোধ", b: "আর্থিক সংকট", c: "প্রাকৃতিক দুর্যোগ", d: "প্রযুক্তির অভাব" }, answer: "b" },
+                    { question: "‘শিক্ষা ও সংস্কৃতি’ প্রবন্ধে সংস্কৃতির গুরুত্ব কীভাবে উপস্থাপিত?", options: { a: "শিক্ষা ছাড়া সংস্কৃতি সম্ভব নয়", b: "সংস্কৃতি শুধুমাত্র ঐতিহ্য", c: "শিক্ষা ও সংস্কৃতি আলাদা", d: "সংস্কৃতি অর্থনৈতিক উন্নতি" }, answer: "a" },
+                    { question: "‘বন্ধুত্ব’ কবিতায় বন্ধুত্বের গুরুত্ব কী?", options: { a: "ক্ষমতা", b: "আত্মীয়তা", c: "বিশ্বাস ও ভালোবাসা", d: "প্রতিদ্বন্দ্বিতা" }, answer: "c" },
+                    { question: "‘পরিবার’ গল্পে পরিবারের গুরুত্ব কীভাবে দেখানো হয়েছে?", options: { a: "সঙ্গীতের মাধ্যমে", b: "ভ্রমণের মাধ্যমে", c: "পারস্পরিক ভালোবাসা ও সহযোগিতার মাধ্যমে", d: "কাজের মাধ্যমে" }, answer: "c" }
+                ],
+                "Model Test 4": [
+                    { question: "‘মানবাধিকার’ প্রবন্ধে প্রধান কথা কী?", options: { a: "অধিকার আদায়", b: "শান্তি প্রতিষ্ঠা", c: "শোষণ মুক্তি", d: "ন্যায় বিচার" }, answer: "a" },
+                    { question: "‘স্মৃতির কাগজ’ কবিতায় স্মৃতি কাকে নির্দেশ করে?", options: { a: "অতীত", b: "বর্তমান", c: "ভবিষ্যত", d: "অনুশোচনা" }, answer: "a" },
+                    { question: "‘আশার আলো’ গল্পে আশা কী রূপে প্রকাশ পায়?", options: { a: "প্রতিদ্বন্দ্বী", b: "শক্তির উৎস", c: "আশ্রয়", d: "বন্ধন" }, answer: "b" },
+                    { question: "‘শিক্ষার গুরুত্ব’ প্রবন্ধে শিক্ষার কোন দিক আলোচিত?", options: { a: "আধ্যাত্মিকতা", b: "সামাজিক উন্নয়ন", c: "রাজনৈতিক ক্ষমতা", d: "পারিবারিক মূল্যবোধ" }, answer: "b" },
+                    { question: "‘নদী ও প্রকৃতি’ কবিতায় নদী কী রূপে দেখানো হয়েছে?", options: { a: "জীবনদাতা", b: "বিধ্বংসী", c: "শান্তিদূত", d: "সংগ্রামী" }, answer: "a" },
+                    { question: "‘মুক্তিযুদ্ধ’ প্রবন্ধে বাংলাদেশের মুক্তিযুদ্ধের সময়কাল কী?", options: { a: "১৯৭০", b: "১৯৭১", c: "১৯৬৫", d: "১৯৭৫" }, answer: "b" },
+                    { question: "‘প্রকৃতির রূপ’ গল্পে প্রকৃতির কোন দিক বিবেচনা করা হয়েছে?", options: { a: "সৌন্দর্য", b: "ভয়াবহতা", c: "জীবনের অবিচ্ছেদ্য অংশ", d: "বিদ্রোহ" }, answer: "c" },
+                    { question: "‘কর্মঠতা’ কবিতায় লেখক কী গুরুত্ব দিয়েছেন?", options: { a: "বিশ্রام", b: "পরিশ্রম", c: "বিশুদ্ধতা", d: "শক্তি" }, answer: "b" },
+                    { question: "‘শহরের জীবন’ প্রবন্ধে শহর জীবনের কোন সমস্যা আলোচনা হয়েছে?", options: { a: "যানজট", b: "দূষণ", c: "আত্মীয়তার অভাব", d: "উচ্চশিক্ষা" }, answer: "b" },
+                    { question: "‘আনন্দমেলা’ গল্পে মেলার প্রধান আকর্ষণ কী?", options: { a: "মেলা পন্ডিত", b: "আনন্দ", c: "সাংস্কৃতিক অনুষ্ঠান", d: "খাদ্য" }, answer: "c" },
+                    { question: "‘কবির ভাব’ কবিতায় কবির মূল ভাব কী?", options: { a: "প্রেম", b: "বিদ্রোহ", c: "দুঃখ", d: "আশা" }, answer: "b" },
+                    { question: "‘মায়ার বন্ধন’ গল্পে মায়ের সম্পর্ক কেমন?", options: { a: "কঠোর", b: "মমতা পূর্ণ", c: "অবহেলা", d: "দূরত্বপূর্ণ" }, answer: "b" },
+                    { question: "‘আকাশের তারা’ কবিতায় তারা কী রূপ?", options: { a: "আশা", b: "মায়া", c: "স্মৃতি", d: "অন্ধকার" }, answer: "a" },
+                    { question: "‘শিক্ষার্থীর জীবন’ প্রবন্ধে লেখকের প্রধান বার্তা কী?", options: { a: "অধ্যবসায়", b: "বিনোদন", c: "বন্ধুত্ব", d: "সংসার" }, answer: "a" },
+                    { question: "‘পরিবেশ রক্ষা’ প্রবন্ধে পরিবেশ সংরক্ষণের প্রধান উপায় কী?", options: { a: "গাছ লাগানো", b: "প্লাস্টিক ব্যবহার বৃদ্ধি", c: "দূষণ বৃদ্ধি", d: "বন উজাড়" }, answer: "a" },
+                    { question: "‘বঙ্গবন্ধু শেখ মুজিব’ জীবনীতে বঙ্গবন্ধুর প্রধান অবদান কী?", options: { a: "মুক্তিযুদ্ধের নেতৃত্ব", b: "অর্থনৈতিক উন্নয়ন", c: "শিক্ষা নীতি", d: "সংস্কৃতি উন্নয়ন" }, answer: "a" },
+                    { question: "‘পরিবার’ গল্পে পরিবারের গুরুত্ব কীভাবে উপস্থাপিত হয়েছে?", options: { a: "সম্পদের মাধ্যমে", b: "ভালোবাসা ও সহযোগিতার মাধ্যমে", c: "সামাজিক বন্ধনের মাধ্যমে", d: "রাজনৈতিক কারণে" }, answer: "b" },
+                    { question: "‘শিক্ষার আলো’ কবিতায় শিক্ষার গুরুত্ব কীভাবে প্রকাশ পায়?", options: { a: "জীবন দান করে", b: "দুঃখ হ্রাস করে", c: "আনন্দ বৃদ্ধি করে", d: "শক্তি দেয়" }, answer: "a" },
+                    { question: "‘সাহিত্য ও সংস্কৃতি’ প্রবন্ধে সাহিত্য কী বলে ব্যাখ্যা করা হয়েছে?", options: { a: "জীবনের প্রকাশ", b: "সংস্কৃতির অংশ", c: "মনের ভাষা", d: "শিক্ষার মাধ্যম" }, answer: "a" },
+                    { question: "‘বৃষ্টির গান’ কবিতায় বৃষ্টিকে কী রূপে উপস্থাপন করা হয়েছে?", options: { a: "জীবনের স্রোত", b: "কষ্টের ঝরনা", c: "প্রেরণার উৎস", d: "বিশ্রামের সময়" }, answer: "a" },
+                    { question: "‘নদীর জল’ গল্পে নদীর জল কী বোঝায়?", options: { a: "জীবনের অবিচ্ছেদ্য অংশ", b: "দুর্ভাগ্যের প্রতীক", c: "শান্তির রূপ", d: "সংগ্রামের প্রকাশ" }, answer: "a" },
+                    { question: "‘বন্ধুত্বের মূল্য’ প্রবন্ধে বন্ধুত্বের গুরুত্ব কী?", options: { a: "সামাজিক বন্ধন", b: "আত্মীয়তার বিকল্প", c: "জীবনের শক্তি", d: "মানসিক শান্তি" }, answer: "c" },
+                    { question: "‘স্বপ্নিল জীবন’ কবিতায় স্বপ্ন কী রূপে প্রকাশ পায়?", options: { a: "ভবিষ্যতের আলো", b: "অতীতের ছায়া", c: "বর্তমানের সত্য", d: "আশা ও বিশ্বাস" }, answer: "d" },
+                    { question: "‘প্রকৃতির সঙ্গীত’ গল্পে প্রকৃতির সঙ্গীত কী বোঝায়?", options: { a: "পাখির গান", b: "নদীর প্রবাহ", c: "বৃষ্টির শব্দ", d: "সব মিলিয়ে প্রকৃতির মেলোডি" }, answer: "d" },
+                    { question: "‘আত্মত্যাগ’ কবিতায় আত্মত্যাগের গুরুত্ব কী?", options: { a: "দেশপ্রেম", b: "পরিবার", c: "বন্ধুত্ব", d: "আত্মমর্যাদা" }, answer: "a" }
+                ],
+                "Model Test 5": [
+                    { question: "‘স্বাধীনতা’ কবিতায় কবির মূল অনুভূতি কী?", options: { a: "দুঃখ", b: "আশা ও আত্মবিশ্বাস", c: "হতাশা", d: "ভয়" }, answer: "b" },
+                    { question: "‘কৃষকের জীবন’ গল্পে কৃষকের প্রধান সমস্যা কী?", options: { a: "অর্থনৈতিক দুরবস্থা", b: "রাজনৈতিক শোষণ", c: "সামাজিক বৈষম্য", d: "শিক্ষা অভাব" }, answer: "a" },
+                    { question: "‘স্মৃতির পাতা’ কবিতায় স্মৃতি কী রূপে বিবেচিত?", options: { a: "সুখের প্রতীক", b: "অতীতের ছায়া", c: "দুঃখের প্রকাশ", d: "শোকের নীরবতা" }, answer: "b" },
+                    { question: "‘আলোর সন্ধান’ গল্পে আলোর প্রতীক কী?", options: { a: "আশা", b: "জীবন", c: "মৃত্যু", d: "বন্ধন" }, answer: "a" },
+                    { question: "‘নদীর প্রবাহ’ কবিতায় নদী কী বোঝায়?", options: { a: "জীবনের ধারাবাহিকতা", b: "সংগ্রাম", c: "আনন্দ", d: "শান্তি" }, answer: "a" },
+                    { question: "‘শিক্ষার গুরুত্ব’ প্রবন্ধে শিক্ষার মূল লক্ষ্য কী?", options: { a: "ব্যক্তিগত উন্নতি", b: "সমাজের কল্যাণ", c: "ধন সমৃদ্ধি", d: "রাজনৈতিক ক্ষমতা" }, answer: "b" },
+                    { question: "‘বন্ধুত্বের গল্প’ গল্পে বন্ধুত্বের প্রকৃতি কী?", options: { a: "স্থায়ী ও বিশ্বস্ত", b: "অস্থায়ী ও তুচ্ছ", c: "দ্বৈত প্রতিদ্বন্দ্বী", d: "অনৈতিক" }, answer: "a" },
+                    { question: "‘কবির ভাবনা’ কবিতায় কবির ভাবনা কী বিষয়ে?", options: { a: "জীবনের অর্থ", b: "প্রকৃতি", c: "প্রেম", d: "সমাজ" }, answer: "a" },
+                    { question: "‘পরিবেশ সচেতনতা’ প্রবন্ধে পরিবেশ রক্ষার উপায় কী?", options: { a: "গাছ লাগানো", b: "কার্বন নিঃসরণ বৃদ্ধি", c: "প্লাস্টিক ব্যবহার", d: "দূষণ বৃদ্ধি" }, answer: "a" },
+                    { question: "‘মায়ার বন্ধন’ গল্পে মায়ের চরিত্র কেমন?", options: { a: "কঠোর", b: "মমতা পূর্ণ", c: "অবহেলা করা", d: "দুর্বল" }, answer: "b" },
+                    { question: "‘আশার আলো’ কবিতায় আশা কী রূপে প্রকাশ পায়?", options: { a: "শক্তি ও সাহস", b: "ভয় ও সংশয়", c: "হতাশা", d: "অবিশ্বাস" }, answer: "a" },
+                    { question: "‘গাছের ছায়া’ প্রবন্ধে গাছের উপকারিতা কী?", options: { a: "ছায়া প্রদান", b: "অক্সিজেন সরবরাহ", c: "পরিবেশের ভারসাম্য রক্ষা", d: "সবগুলোই" }, answer: "d" },
+                    { question: "‘শিক্ষক’ কবিতায় শিক্ষকের প্রধান গুণ কী?", options: { a: "কঠোরতা", b: "মমতা ও ধৈর্য", c: "অজ্ঞানতা", d: "অহংকার" }, answer: "b" },
+                    { question: "‘নদীর জল’ গল্পে নদী কী প্রতিনিধিত্ব করে?", options: { a: "জীবনের স্রোত", b: "শত্রুতা", c: "অবহেলা", d: "মৃত্যু" }, answer: "a" },
+                    { question: "‘বঙ্গবন্ধু শেখ মুজিব’ জীবনীতে বঙ্গবন্ধুর ভূমিকা কী?", options: { a: "স্বাধীনতা সংগ্রামের নেতা", b: "শিক্ষাবিদ", c: "চিকিৎসক", d: "শিল্পী" }, answer: "a" },
+                    { question: "‘পরিবার’ গল্পে পরিবারের গুরুত্ব কীভাবে দেখানো হয়েছে?", options: { a: "অর্থের মাধ্যমে", b: "ভালোবাসা ও সহানুভূতির মাধ্যমে", c: "বৈরিতার মাধ্যমে", d: "বিরোধের মাধ্যমে" }, answer: "b" },
+                    { question: "‘আকাশের তারা’ কবিতায় তারা কী প্রতীক?", options: { a: "আশা", b: "শত্রু", c: "অন্ধকার", d: "ভুল" }, answer: "a" },
+                    { question: "‘শহরের জীবন’ প্রবন্ধে শহরের প্রধান সমস্যা কী?", options: { a: "দূষণ", b: "শান্তি", c: "বন্ধুত্ব", d: "শিক্ষার অভাব" }, answer: "a" },
+                    { question: "‘বন্ধুত্ব’ কবিতায় বন্ধুত্বের মূল্য কী?", options: { a: "বিশ্বাস ও ভালোবাসা", b: "ক্ষমতা", c: "অর্থ", d: "অহংকার" }, answer: "a" },
+                    { question: "‘পরিবেশ রক্ষা’ প্রবন্ধে পরিবেশ সংরক্ষণের প্রধান উপায় কী?", options: { a: "গাছ লাগানো", b: "দূষণ বৃদ্ধি", c: "প্লাস্টিক ব্যবহার", d: "বন উজাড়" }, answer: "a" },
+                    { question: "‘আনন্দমেলা’ গল্পে মেলার প্রধান আকর্ষণ কী?", options: { a: "সাংস্কৃতিক অনুষ্ঠান", b: "খাদ্য", c: "আনন্দ", d: "খেলাধুলা" }, answer: "a" },
+                    { question: "‘কবির ভাব’ কবিতায় কবির মূল ভাব কী?", options: { a: "প্রেম", b: "বিদ্রোহ", c: "আশা", d: "দুঃখ" }, answer: "b" },
+                    { question: "‘শিক্ষার্থীর জীবন’ প্রবন্ধে শিক্ষার্থীর প্রধান দায়িত্ব কী?", options: { a: "অধ্যবসায়", b: "বিনোদন", c: "অবহেলা", d: "অলসতা" }, answer: "a" },
+                    { question: "‘স্বপ্নিল জীবন’ কবিতায় স্বপ্ন কী রূপে প্রকাশ পায়?", options: { a: "ভবিষ্যতের আশা", b: "অতীতের স্মৃতি", c: "বর্তমানের সত্য", d: "হতাশা" }, answer: "a" },
+                    { question: "‘আত্মত্যাগ’ কবিতায় আত্মত্যাগের গুরুত্ব কী?", options: { a: "দেশপ্রেম", b: "ব্যক্তিগত স্বার্থ", c: "অবহেলা", d: "কুৎসা" }, answer: "a" }
+                ]
+            }
+        },
+        "ICT": {
+            "icon": "💻",
+            "tests": {
+                "Model Test 1": [
+                    { question: "কম্পিউটারের মস্তিষ্ক কোনটি?", options: { a: "হার্ডডিস্ক", b: "CPU", c: "RAM", d: "মনিটর" }, answer: "b" },
+                    { question: "RAM-এর পূর্ণ রূপ কী?", options: { a: "Read Access Memory", b: "Random Access Memory", c: "Ready Access Memory", d: "Run Access Memory" }, answer: "b" },
+                    { question: "অপারেটিং সিস্টেমের প্রধান কাজ কী?", options: { a: "গেম খেলা", b: "হার্ডওয়্যার নিয়ন্ত্রণ", c: "ওয়ার্ড প্রসেসিং", d: "ইমেইল পাঠানো" }, answer: "b" },
+                    { question: "মাউস কি ধরনের ডিভাইস?", options: { a: "ইনপুট ডিভাইস", b: "আউটপুট ডিভাইস", c: "স্টোরেজ ডিভাইস", d: "প্রসেসর" }, answer: "a" },
+                    { question: "নিচের কোনটি ওয়েব ব্রাউজার?", options: { a: "Microsoft Word", b: "Google Chrome", c: "Windows", d: "Excel" }, answer: "b" },
+                    { question: "ফাইল সংরক্ষণের জন্য কোন ডিভাইস ব্যবহার করা হয়?", options: { a: "স্ক্রিন", b: "কীবোর্ড", c: "হার্ডডিস্ক", d: "মাইক্রোফোন" }, answer: "c" },
+                    { question: "HTML-এর পূর্ণরূপ কী?", options: { a: "Hyper Text Markup Language", b: "Hyperlink Text Markup Language", c: "Hyper Tool Markup Language", d: "Hyperlink Tool Markup Language" }, answer: "a" },
+                    { question: "সফটওয়্যার কী?", options: { a: "হার্ডওয়্যার", b: "প্রোগ্রাম ও নির্দেশনা", c: "ডেটা সংরক্ষণ", d: "ইমেইল পাঠানো" }, answer: "b" },
+                    { question: "কম্পিউটারের প্রধান মেমোরি অংশ কোনটি?", options: { a: "RAM", b: "CPU", c: "মাউস", d: "কীবোর্ড" }, answer: "a" },
+                    { question: "নিচের কোনটি প্রোগ্রামিং ভাষা?", options: { a: "HTML", b: "C++", c: "Microsoft Word", d: "Windows" }, answer: "b" },
+                    { question: "মাউসের বাম বোতামের কাজ কী?", options: { a: "নির্বাচন করা", b: "বন্ধ করা", c: "কপি করা", d: "পেস্ট করা" }, answer: "a" },
+                    { question: "নিচের কোনটি ইনপুট ডিভাইস নয়?", options: { a: "কীবোর্ড", b: "স্ক্যানার", c: "প্রিন্টার", d: "মাউস" }, answer: "c" },
+                    { question: "নিচের কোনটি ওয়ার্ড প্রসেসর সফটওয়্যার?", options: { a: "Microsoft Excel", b: "Microsoft Word", c: "PowerPoint", d: "Notepad" }, answer: "b" },
+                    { question: "নিচের কোনটি ওয়েব সার্ভার?", options: { a: "Apache", b: "Windows", c: "Linux", d: "Google Chrome" }, answer: "a" },
+                    { question: "কম্পিউটারের কোন অংশ তথ্য সংরক্ষণ করে?", options: { a: "RAM", b: "CPU", c: "হার্ডডিস্ক", d: "মাদারবোর্ড" }, answer: "c" },
+                    { question: "ইন্টারনেটের পূর্ণরূপ কী?", options: { a: "International Network", b: "Interconnected Network", c: "Internet", d: "Internal Network" }, answer: "b" },
+                    { question: "ডেটাবেস ব্যবস্থাপনার জন্য কোন সফটওয়্যার ব্যবহৃত হয়?", options: { a: "Microsoft Word", b: "Microsoft Excel", c: "Microsoft Access", d: "PowerPoint" }, answer: "c" },
+                    { question: "কীবোর্ডে ‘Enter’ কী কী কাজ করে?", options: { a: "নতুন লাইন শুরু করা", b: "তথ্য সংরক্ষণ করা", c: "ডিলিট করা", d: "কপি করা" }, answer: "a" },
+                    { question: "কম্পিউটারে ভাইরাস থেকে রক্ষা পাওয়ার জন্য কী ব্যবহার করা হয়?", options: { a: "ফায়ারওয়াল", b: "অ্যান্টিভাইরাস সফটওয়্যার", c: "কীবোর্ড", d: "মনিটর" }, answer: "b" },
+                    { question: "URL কী বোঝায়?", options: { a: "Universal Resource Locator", b: "Uniform Resource Locator", c: "United Resource Locator", d: "Universal Remote Locator" }, answer: "b" },
+                    { question: "CPU কী?", options: { a: "Central Processing Unit", b: "Computer Personal Unit", c: "Central Performance Unit", d: "Computer Processing Unit" }, answer: "a" },
+                    { question: "সফটওয়্যার ডেভেলপমেন্টে কোন ভাষা বেশি ব্যবহৃত?", options: { a: "Python", b: "English", c: "Bengali", d: "Hindi" }, answer: "a" },
+                    { question: "ওয়াই-ফাই কী ধরনের সংযোগ?", options: { a: "ওয়্যার্ড", b: "ওয়্যারলেস", c: "মোবাইল", d: "ব্লুটুথ" }, answer: "b" },
+                    { question: "HTTP কী?", options: { a: "Hyper Text Transfer Protocol", b: "Hyperlink Text Transfer Protocol", c: "Hyper Tool Transfer Protocol", d: "Hyper Text Transport Process" }, answer: "a" },
+                    { question: "কম্পিউটারের কোন অংশ ডেটা প্রক্রিয়াকরণ করে?", options: { a: "RAM", b: "CPU", c: "হার্ডডিস্ক", d: "মাদারবোর্ড" }, answer: "b" }
+                ],
+                "Model Test 2": [
+                    { question: "কম্পিউটারের হার্ডওয়্যার কী?", options: { a: "সফটওয়্যার", b: "শারীরিক অংশ", c: "প্রোগ্রাম", d: "ডেটা" }, answer: "b" },
+                    { question: "কীবোর্ডের কোন অংশে সংখ্যা থাকে?", options: { a: "এন্টার কী", b: "নম্বার প্যাড", c: "স্পেস বার", d: "ফাংশন কী" }, answer: "b" },
+                    { question: "মাউসের কোন বোতাম সাধারণত সিলেকশন করে?", options: { a: "বাম বোতাম", b: "ডান বোতাম", c: "মধ্যবর্তী বোতাম", d: "কোনোটিই নয়" }, answer: "a" },
+                    { question: "নিচের কোনটি অপারেটিং সিস্টেম নয়?", options: { a: "Windows", b: "Linux", c: "Microsoft Word", d: "Mac OS" }, answer: "c" },
+                    { question: "নিচের কোনটি ওয়েব ব্রাউজার নয়?", options: { a: "Mozilla Firefox", b: "Google Chrome", c: "Microsoft Excel", d: "Safari" }, answer: "c" },
+                    { question: "কম্পিউটারে ‘Byte’ কত bit নিয়ে গঠিত?", options: { a: "4", b: "8", c: "16", d: "32" }, answer: "b" },
+                    { question: "ডেটা প্রবেশের জন্য কোন ডিভাইস ব্যবহার করা হয়?", options: { a: "মনিটর", b: "কীবোর্ড", c: "প্রিন্টার", d: "স্পিকার" }, answer: "b" },
+                    { question: "ওয়ার্ড প্রসেসর সফটওয়্যার দিয়ে কী করা যায়?", options: { a: "ডাটা বিশ্লেষণ", b: "টেক্সট লেখা ও সম্পাদনা", c: "ছবি আঁকা", d: "ভিডিও দেখা" }, answer: "b" },
+                    { question: "কোন ডিভাইস ওয়েব ক্যামেরার কাজ করে?", options: { a: "ইনপুট ডিভাইস", b: "আউটপুট ডিভাইস", c: "স্টোরেজ ডিভাইস", d: "প্রসেসর" }, answer: "a" },
+                    { question: "ফায়ারওয়াল কী কাজ করে?", options: { a: "ভাইরাস সনাক্ত করা", b: "নেটওয়ার্ক সুরক্ষা প্রদান", c: "ডেটা সংরক্ষণ", d: "প্রিন্টিং" }, answer: "b" },
+                    { question: "HTTP এর পূর্ণরূপ কী?", options: { a: "Hyper Text Transfer Protocol", b: "Hyper Tool Transfer Protocol", c: "Hyperlink Transport Process", d: "Hyper Text Transport Process" }, answer: "a" },
+                    { question: "IP Address কী?", options: { a: "ইন্টারনেট প্রোটোকল ঠিকানা", b: "কম্পিউটার নাম", c: "নেটওয়ার্ক ডিভাইস", d: "ডেটা ফাইল" }, answer: "a" },
+                    { question: "নিচের কোনটি প্রোগ্রামিং ভাষা নয়?", options: { a: "Python", b: "Java", c: "HTML", d: "Windows" }, answer: "d" },
+                    { question: "নিচের কোনটি স্টোরেজ ডিভাইস?", options: { a: "RAM", b: "CPU", c: "হার্ডডিস্ক", d: "মনিটর" }, answer: "c" },
+                    { question: "কম্পিউটারে Bit কী?", options: { a: "তথ্যের সবচেয়ে ছোট ইউনিট", b: "স্টোরেজ ডিভাইস", c: "সফটওয়্যার", d: "হার্ডওয়্যার" }, answer: "a" },
+                    { question: "নিচের কোনটি ইনপুট ডিভাইস?", options: { a: "স্পিকার", b: "কীবোর্ড", c: "মনিটর", d: "প্রিন্টার" }, answer: "b" },
+                    { question: "সফটওয়্যার দুই প্রকার:", options: { a: "হার্ডওয়্যার ও সফটওয়্যার", b: "সিস্টেম সফটওয়্যার ও অ্যাপ্লিকেশন সফটওয়্যার", c: "ওয়েব ব্রাউজার ও ওয়ার্ড প্রসেসর", d: "অপারেটিং সিস্টেম ও প্রিন্টার" }, answer: "b" },
+                    { question: "নিচের কোনটি ওয়ার্ড প্রসেসর সফটওয়্যার?", options: { a: "Microsoft Excel", b: "Microsoft Word", c: "PowerPoint", d: "Google Chrome" }, answer: "b" },
+                    { question: "Cloud Computing কী?", options: { a: "ডেটা সংরক্ষণ ও পরিচালনা অনলাইনে", b: "স্থানীয় স্টোরেজ", c: "কম্পিউটার হার্ডওয়্যার", d: "সফটওয়্যার ডেভেলপমেন্ট" }, answer: "a" },
+                    { question: "CPU কাজ কী?", options: { a: "ডেটা সংরক্ষণ", b: "ডেটা প্রক্রিয়াকরণ", c: "ইনপুট ডিভাইস", d: "আউটপুট ডিভাইস" }, answer: "b" },
+                    { question: "কম্পিউটার ভাইরাস কী?", options: { a: "হার্ডওয়্যার অংশ", b: "ক্ষতিকর সফটওয়্যার", c: "স্টোরেজ ডিভাইস", d: "কম্পিউটার ভাষা" }, answer: "b" },
+                    { question: "URL এর পূর্ণরূপ কী?", options: { a: "Uniform Resource Locator", b: "Universal Resource Locator", c: "United Resource Locator", d: "Uniform Remote Locator" }, answer: "a" },
+                    { question: "ওয়াই-ফাই কী ধরনের প্রযুক্তি?", options: { a: "ওয়্যার্ড নেটওয়ার্ক", b: "ওয়্যারলেস নেটওয়ার্ক", c: "মোবাইল নেটওয়ার্ক", d: "ব্লুটুথ নেটওয়ার্ক" }, answer: "b" },
+                    { question: "Software কী?", options: { a: "হার্ডওয়্যার", b: "প্রোগ্রাম ও নির্দেশনা", c: "ডেটা সংরক্ষণ মাধ্যম", d: "ইনপুট ডিভাইস" }, answer: "b" },
+                    { question: "Spreadsheet সফটওয়্যার কোনটি?", options: { a: "Microsoft Word", b: "Microsoft Excel", c: "PowerPoint", d: "Google Chrome" }, answer: "b" }
+                ],
+                "Model Test 3": [
+                    { question: "কম্পিউটার হার্ডওয়্যার নয় কোনটি?", options: { a: "মাদারবোর্ড", b: "মাউস", c: "উইন্ডোজ", d: "মনিটর" }, answer: "c" },
+                    { question: "Bluetooth কী ধরনের প্রযুক্তি?", options: { a: "ওয়্যার্ড সংযোগ", b: "ওয়্যারলেস সংযোগ", c: "মোবাইল নেটওয়ার্ক", d: "ইন্টারনেট প্রোটোকল" }, answer: "b" },
+                    { question: "CPU কাজ কী?", options: { a: "ইনপুট নেওয়া", b: "ডেটা প্রক্রিয়াকরণ", c: "আউটপুট দেওয়া", d: "তথ্য সংরক্ষণ" }, answer: "b" },
+                    { question: "IP Address কী?", options: { a: "নেটওয়ার্ক ডিভাইসের পরিচিতি", b: "কম্পিউটারের নাম", c: "ব্যবহারকারীর নাম", d: "ফাইলের নাম" }, answer: "a" },
+                    { question: "HTML ব্যবহার হয় কোন কাজে?", options: { a: "ওয়েবপেজ তৈরি", b: "গ্রাফিক্স ডিজাইন", c: "ভিডিও সম্পাদনা", d: "প্রিন্টিং" }, answer: "a" },
+                    { question: "RAM কাজ কী?", options: { a: "তথ্য সংরক্ষণ", b: "ডেটা প্রক্রিয়াকরণ", c: "অস্থায়ী ডেটা সংরক্ষণ", d: "স্থায়ী ডেটা সংরক্ষণ" }, answer: "c" },
+                    { question: "Software দুই প্রকার:", options: { a: "সিস্টেম ও অ্যাপ্লিকেশন", b: "হার্ডওয়্যার ও সফটওয়্যার", c: "অপারেটিং সিস্টেম ও ভাইরাস", d: "প্রোগ্রাম ও ফাইল" }, answer: "a" },
+                    { question: "নিচের কোনটি ওয়েব ব্রাউজার?", options: { a: "Google Chrome", b: "Microsoft Word", c: "Windows", d: "Excel" }, answer: "a" },
+                    { question: "নিচের কোনটি ওয়ার্ড প্রসেসর সফটওয়্যার?", options: { a: "Microsoft Word", b: "Microsoft Excel", c: "PowerPoint", d: "Notepad" }, answer: "a" },
+                    { question: "তথ্য সংরক্ষণের প্রধান মাধ্যম?", options: { a: "RAM", b: "CPU", c: "হার্ডডিস্ক", d: "প্রসেসর" }, answer: "c" },
+                    { question: "URL কী?", options: { a: "Uniform Resource Locator", b: "Universal Resource Locator", c: "United Resource Locator", d: "Uniform Remote Locator" }, answer: "a" },
+                    { question: "ওয়াই-ফাই কী?", options: { a: "ওয়্যার্ড নেটওয়ার্ক", b: "ওয়্যারলেস নেটওয়ার্ক", c: "মোবাইল নেটওয়ার্ক", d: "ব্লুটুথ নেটওয়ার্ক" }, answer: "b" },
+                    { question: "ইনপুট ডিভাইস?", options: { a: "মাউস", b: "মনিটর", c: "স্পিকার", d: "প্রিন্টার" }, answer: "a" },
+                    { question: "ভাইরাস থেকে রক্ষা?", options: { a: "ফায়ারওয়াল", b: "অ্যান্টিভাইরাস সফটওয়্যার", c: "কীবোর্ড", d: "মনিটর" }, answer: "b" },
+                    { question: "HTTP পূর্ণরূপ?", options: { a: "Hyper Text Transfer Protocol", b: "Hyper Tool Transfer Protocol", c: "Hyperlink Transport Process", d: "Hyper Text Transport Process" }, answer: "a" },
+                    { question: "প্রোগ্রামিং ভাষা?", options: { a: "Python", b: "Java", c: "HTML", d: "Windows" }, answer: "a" },
+                    { question: "CPU সংক্ষেপে?", options: { a: "Central Processing Unit", b: "Computer Personal Unit", c: "Central Performance Unit", d: "Computer Processing Unit" }, answer: "a" },
+                    { question: "Software?", options: { a: "হার্ডওয়্যার", b: "প্রোগ্রাম ও নির্দেশনা", c: "ডেটা সংরক্ষণ", d: "ইনপুট ডিভাইস" }, answer: "b" },
+                    { question: "Spreadsheet?", options: { a: "Microsoft Word", b: "Microsoft Excel", c: "PowerPoint", d: "Google Chrome" }, answer: "b" },
+                    { question: "Firewall কাজ?", options: { a: "ভাইরাস সনাক্ত করা", b: "নেটওয়ার্ক সুরক্ষা প্রদান", c: "ডেটা সংরক্ষণ", d: "প্রিন্টিং" }, answer: "b" },
+                    { question: "ওয়েব সার্ভার সফটওয়্যার?", options: { a: "Apache", b: "Windows", c: "Linux", d: "Google Chrome" }, answer: "a" },
+                    { question: "IP Address কাজ?", options: { a: "নেটওয়ার্কে ডিভাইস শনাক্ত করা", b: "কম্পিউটারের নাম রাখা", c: "ব্যবহারকারীর নাম নির্ধারণ", d: "ফাইল সঞ্চয় করা" }, answer: "a" },
+                    { question: "ওয়াই-ফাই বলতে বুঝায়?", options: { a: "তারযুক্ত নেটওয়ার্ক", b: "তারবিহীন নেটওয়ার্ক", c: "মোবাইল নেটওয়ার্ক", d: "ব্লুটুথ নেটওয়ার্ক" }, answer: "b" },
+                    { question: "কম্পিউটারের ইনপুট ডিভাইস?", options: { a: "কীবোর্ড", b: "মনিটর", c: "স্পিকার", d: "প্রিন্টার" }, answer: "a" },
+                    { question: "কম্পিউটারের আউটপুট ডিভাইস?", options: { a: "মাউস", b: "মনিটর", c: "স্ক্যানার", d: "কীবোর্ড" }, answer: "b" }
+                ],
+                "Model Test 4": [
+                    { question: "Which of the following is an output device?", options: { a: "Keyboard", b: "Mouse", c: "Monitor", d: "Scanner" }, answer: "c" },
+                    { question: "What does 'GUI' stand for?", options: { a: "Graphical User Interface", b: "General User Interface", c: "Graphical Utility Interface", d: "General Utility Interface" }, answer: "a" },
+                    { question: "Which component is known as the 'brain' of the computer?", options: { a: "RAM", b: "Hard Drive", c: "CPU", d: "Motherboard" }, answer: "c" },
+                    { question: "What is the main function of an Operating System?", options: { a: "To browse the internet", b: "To manage hardware and software resources", c: "To create documents", d: "To play games" }, answer: "b" },
+                    { question: "Which of these is a programming language?", options: { a: "HTTP", b: "HTML", c: "FTP", d: "Python" }, answer: "d" },
+                    { question: "1 Gigabyte (GB) is equal to:", options: { a: "1024 Bytes", b: "1024 Kilobytes", c: "1024 Megabytes", d: "1024 Terabytes" }, answer: "c" },
+                    { question: "What is malware?", options: { a: "A type of computer hardware", b: "A type of computer monitor", c: "Software designed to harm your computer", d: "A type of network cable" }, answer: "c" },
+                    { question: "Which protocol is used for sending emails?", options: { a: "SMTP", b: "HTTP", c: "FTP", d: "TCP" }, answer: "a" },
+                    { question: "What does 'URL' stand for?", options: { a: "Universal Reference Link", b: "Uniform Resource Locator", c: "Universal Resource Locator", d: "Uniform Reference Link" }, answer: "b" },
+                    { question: "Which company developed the Windows operating system?", options: { a: "Apple", b: "Google", c: "Microsoft", d: "IBM" }, answer: "c" },
+                    { question: "What is the function of a router?", options: { a: "To connect to the internet", b: "To forward data packets between networks", c: "To store files", d: "To print documents" }, answer: "b" },
+                    { question: "Which of the following is a volatile memory?", options: { a: "ROM", b: "SSD", c: "Hard Disk", d: "RAM" }, answer: "d" },
+                    { question: "What does 'PDF' stand for?", options: { a: "Portable Document Format", b: "Printed Document File", c: "Public Domain File", d: "Personal Data File" }, answer: "a" },
+                    { question: "Which technology is used for wireless communication over short distances?", options: { a: "Wi-Fi", b: "Bluetooth", c: "Ethernet", d: "4G" }, answer: "b" },
+                    { question: "In a spreadsheet, what is the intersection of a row and a column called?", options: { a: "A box", b: "A cell", c: "A field", d: "A record" }, answer: "b" },
+                    { question: "What is 'phishing'?", options: { a: "A type of fishing", b: "A fraudulent attempt to obtain sensitive information", c: "A computer virus", d: "A hardware component" }, answer: "b" },
+                    { question: "Which of these is a search engine?", options: { a: "Facebook", b: "Chrome", c: "Google", d: "Gmail" }, answer: "c" },
+                    { question: "What is the file extension for a Python file?", options: { a: ".java", b: ".py", c: ".html", d: ".css" }, answer: "b" },
+                    { question: "What is 'Cloud Storage'?", options: { a: "Storing data on your local computer", b: "Storing data on a physical hard drive", c: "Storing data on remote servers accessed from the internet", d: "A type of weather forecasting" }, answer: "c" },
+                    { question: "Which key is used to take a screenshot of the entire screen?", options: { a: "Print Screen (PrtScn)", b: "F5", c: "Esc", d: "Tab" }, answer: "a" },
+                    { question: "What does 'LAN' stand for?", options: { a: "Large Area Network", b: "Local Area Network", c: "Long Area Network", d: "Logical Area Network" }, answer: "b" },
+                    { question: "Which of these is NOT an image file format?", options: { a: ".JPG", b: ".PNG", c: ".GIF", d: ".MP3" }, answer: "d" },
+                    { question: "What is the purpose of a firewall?", options: { a: "To increase internet speed", b: "To monitor and control incoming and outgoing network traffic", c: "To cool the CPU", d: "To store passwords" }, answer: "b" },
+                    { question: "Which part of an email address is the domain name?", options: { a: "The part before the '@' symbol", b: "The '@' symbol itself", c: "The part after the '@' symbol", d: "The entire address" }, answer: "c" },
+                    { question: "What is an algorithm?", options: { a: "A type of computer chip", b: "A step-by-step procedure for solving a problem", c: "A programming language", d: "A graphical representation of data" }, answer: "b" }
+                ],
+                "Model Test 5": [
+                    { question: "What is the primary function of a web browser?", options: { a: "To send emails", b: "To create documents", c: "To access and display websites", d: "To edit photos" }, answer: "c" },
+                    { question: "Which of the following is a solid-state drive (SSD)?", options: { a: "A type of RAM", b: "A storage device with no moving parts", c: "A type of CPU", d: "A type of monitor" }, answer: "b" },
+                    { question: "What does 'IP' stand for in IP address?", options: { a: "Internet Provider", b: "Internal Protocol", c: "Internet Protocol", d: "Information Process" }, answer: "c" },
+                    { question: "Which of these is an example of an application software?", options: { a: "Windows 10", b: "Linux", c: "macOS", d: "Microsoft Word" }, answer: "d" },
+                    { question: "What does HTML stand for?", options: { a: "Hyperlinks and Text Markup Language", b: "Home Tool Markup Language", c: "Hyper Text Markup Language", d: "Hyper-linking Textual Mark Language" }, answer: "c" },
+                    { question: "Which of the following is used to style web pages?", options: { a: "HTML", b: "Python", c: "JavaScript", d: "CSS" }, answer: "d" },
+                    { question: "What is a 'cookie' in the context of web browsing?", options: { a: "A small piece of data stored by a website on a user's computer", b: "A type of computer virus", c: "A snack you eat while browsing", d: "A hardware component" }, answer: "a" },
+                    { question: "Which of these is NOT a type of computer network?", options: { a: "LAN", b: "WAN", c: "MAN", d: "PAN" }, answer: "d" },
+                    { question: "What is the function of the 'copy' command (Ctrl+C)?", options: { a: "To delete text", b: "To place a copy of the selected item in the clipboard", c: "To move text", d: "To save the document" }, answer: "b" },
+                    { question: "What does 'USB' stand for?", options: { a: "Universal Serial Bus", b: "United Service Backup", c: "Universal System Block", d: "User Serial Bus" }, answer: "a" },
+                    { question: "Which of these is a vector graphics editor?", options: { a: "Adobe Photoshop", b: "MS Paint", c: "Adobe Illustrator", d: "GIMP" }, answer: "c" },
+                    { question: "What is 'open-source' software?", options: { a: "Software that is very expensive", b: "Software whose source code is available for modification or enhancement by anyone", c: "Software that is no longer supported", d: "Software that is only for private use" }, answer: "b" },
+                    { question: "Which of the following is a database management system (DBMS)?", options: { a: "Excel", b: "MySQL", c: "PowerPoint", d: "Chrome" }, answer: "b" },
+                    { question: "What is the purpose of the 'undo' command (Ctrl+Z)?", options: { a: "To redo the last action", b: "To reverse the last action", c: "To save the file", d: "To close the application" }, answer: "b" },
+                    { question: "Which of these is a cloud computing platform?", options: { a: "Amazon Web Services (AWS)", b: "Microsoft Office", c: "Adobe Creative Cloud", d: "Windows OS" }, answer: "a" },
+                    { question: "What is a 'pixel'?", options: { a: "A unit of computer memory", b: "The smallest unit of a digital image or display", c: "A type of computer cable", d: "A measure of internet speed" }, answer: "b" },
+                    { question: "Which device converts digital signals to analog signals and vice-versa?", options: { a: "Router", b: "Switch", c: "Modem", d: "Hub" }, answer: "c" },
+                    { question: "What is the main purpose of a QR code?", options: { a: "To store a large amount of text", b: "To be scanned by a device to provide information quickly", c: "To play music", d: "To secure a network" }, answer: "b" },
+                    { question: "Which programming language is primarily used for Android app development?", options: { a: "Swift", b: "Kotlin/Java", c: "C#", d: "PHP" }, answer: "b" },
+                    { question: "What is 'Ethernet'?", options: { a: "A type of wireless network technology", b: "A family of wired computer networking technologies", c: "A type of internet browser", d: "A brand of computer" }, answer: "b" },
+                    { question: "What is a 'bug' in software?", options: { a: "An insect", b: "A feature", c: "An error, flaw or fault in a computer program", d: "A hardware component" }, answer: "c" },
+                    { question: "Which of these is a video file format?", options: { a: ".WAV", b: ".MP4", c: ".DOCX", d: ".ZIP" }, answer: "b" },
+                    { question: "What does 'Wi-Fi' stand for?", options: { a: "Wireless Fidelity", b: "Wired Fidelity", c: "Wireless Firewall", d: "Wide Fidelity" }, answer: "a" },
+                    { question: "Which of these is a text editor for coding?", options: { a: "Notepad", b: "Visual Studio Code", c: "Microsoft Word", d: "WordPad" }, answer: "b" },
+                    { question: "What is the function of the motherboard?", options: { a: "To process data", b: "To store data permanently", c: "To hold and allow communication between many of the crucial electronic components", d: "To display images" }, answer: "c" }
+                ]
+            }
+        },
+        "English": {
+            "icon": "🇬🇧",
+            "tests": {
+                "Model Test 1": [
+                    { question: "Choose the correct sentence: ", options: { a: "He do not know how to swim.", b: "He does not know how to swim.", c: "He does not knows how to swim.", d: "He do not knows how to swim." }, answer: "b" },
+                    { question: "What is the synonym of 'enormous'?", options: { a: "Tiny", b: "Huge", c: "Average", d: "Weak" }, answer: "b" },
+                    { question: "What is the antonym of 'brave'?", options: { a: "Cowardly", b: "Strong", c: "Bold", d: "Heroic" }, answer: "a" },
+                    { question: "He is senior ___ me.", options: { a: "than", b: "from", c: "to", d: "of" }, answer: "c" },
+                    { question: "Which one is a collective noun?", options: { a: "Boy", b: "Girl", c: "Team", d: "Book" }, answer: "c" },
+                    { question: "The past participle of 'begin' is:", options: { a: "Began", b: "Begun", c: "Begined", d: "Beginned" }, answer: "b" },
+                    { question: "I saw a ___ of lions in the jungle.", options: { a: "herd", b: "flock", c: "pride", d: "pack" }, answer: "c" },
+                    { question: "Select the correctly spelled word:", options: { a: "Accomodate", b: "Acommodate", c: "Accommodate", d: "Acomodate" }, answer: "c" },
+                    { question: "A person who writes books is called an ___.", options: { a: "artist", b: "author", c: "actor", d: "architect" }, answer: "b" },
+                    { question: "'To read between the lines' means:", options: { a: "To read very carefully", b: "To find the hidden meaning", c: "To read loudly", d: "To read quickly" }, answer: "b" },
+                    { question: "Which of the following is a preposition?", options: { a: "And", b: "But", c: "Quickly", d: "Under" }, answer: "d" },
+                    { question: "She ___ a beautiful song last night.", options: { a: "sings", b: "sing", c: "sang", d: "sung" }, answer: "c" },
+                    { question: "What is the plural form of 'mouse'?", options: { a: "Mouses", b: "Mice", c: "Mouse", d: "Micees" }, answer: "b" },
+                    { question: "The book is ___ the table.", options: { a: "in", b: "at", c: "on", d: "over" }, answer: "c" },
+                    { question: "He has been living here ___ 2010.", options: { a: "for", b: "since", c: "from", d: "in" }, answer: "b" },
+                    { question: "Identify the adjective in the sentence: 'The cat is black.'", options: { a: "The", b: "cat", c: "is", d: "black" }, answer: "d" },
+                    { question: "Choose the interrogative sentence:", options: { a: "He is a good boy.", b: "What a beautiful day!", c: "Are you going to the party?", d: "Please close the door." }, answer: "c" },
+                    { question: "The feminine gender of 'horse' is:", options: { a: "Mare", b: "Doe", c: "Vixen", d: "Ewe" }, answer: "a" },
+                    { question: "I would rather die ___ beg.", options: { a: "to", b: "from", c: "than", d: "then" }, answer: "c" },
+                    { question: "Which word means 'a place where birds are kept'?", options: { a: "Aquarium", b: "Apiary", c: "Aviary", d: "Zoo" }, answer: "c" },
+                    { question: "The superlative degree of 'good' is:", options: { a: "Gooder", b: "Better", c: "Best", d: "Well" }, answer: "c" },
+                    { question: "He is afraid ___ dogs.", options: { a: "from", b: "with", c: "by", d: "of" }, answer: "d" },
+                    { question: "Choose the correct passive form of 'He writes a letter.'", options: { a: "A letter is wrote by him.", b: "A letter is written by him.", c: "A letter was written by him.", d: "A letter has been written by him." }, answer: "b" },
+                    { question: "A decade is a period of ___ years.", options: { a: "5", b: "10", c: "50", d: "100" }, answer: "b" },
+                    { question: "The sun ___ in the east.", options: { a: "rise", b: "rises", c: "rose", d: "has risen" }, answer: "b" }
+                ],
+                "Model Test 2": [
+                    { question: "What is the antonym of 'ancient'?", options: { a: "Old", b: "Modern", c: "Past", d: "Historic" }, answer: "b" },
+                    { question: "Choose the correct sentence:", options: { a: "The news are bad.", b: "The news is bad.", c: "The new are bad.", d: "The new is bad." }, answer: "b" },
+                    { question: "He is fond ___ music.", options: { a: "of", b: "in", c: "at", d: "with" }, answer: "a" },
+                    { question: "Which one is a material noun?", options: { a: "Honesty", b: "Gold", c: "Army", d: "River" }, answer: "b" },
+                    { question: "The past tense of 'fly' is:", options: { a: "Flied", b: "Flown", c: "Flew", d: "Flyed" }, answer: "c" },
+                    { question: "A group of ships is called a ___.", options: { a: "crew", b: "fleet", c: "squadron", d: "team" }, answer: "b" },
+                    { question: "Select the correctly spelled word:", options: { a: "Grammer", b: "Gramar", c: "Grammar", d: "Gramer" }, answer: "c" },
+                    { question: "A person who studies stars and planets is an ___.", options: { a: "astrologer", b: "astronaut", c: "astronomer", d: "archeologist" }, answer: "c" },
+                    { question: "'A black sheep' means:", options: { a: "A costly item", b: "A dark-colored sheep", c: "A person with a bad reputation", d: "A lucky person" }, answer: "c" },
+                    { question: "Which of the following is an adverb?", options: { a: "Beautiful", b: "Beauty", c: "Beautifully", d: "Beautify" }, answer: "c" },
+                    { question: "I have not seen him ___.", options: { a: "late", b: "lately", c: "later", d: "latest" }, answer: "b" },
+                    { question: "What is the plural form of 'child'?", options: { a: "Childs", b: "Children", c: "Childes", d: "Childrens" }, answer: "b" },
+                    { question: "The cat is hiding ___ the bed.", options: { a: "on", b: "over", c: "under", d: "in" }, answer: "c" },
+                    { question: "It has been raining ___ morning.", options: { a: "for", b: "from", c: "since", d: "in" }, answer: "c" },
+                    { question: "Identify the verb in the sentence: 'They play football.'", options: { a: "They", b: "play", c: "football", d: "The" }, answer: "b" },
+                    { question: "Choose the exclamatory sentence:", options: { a: "She is very intelligent.", b: "How intelligent she is!", c: "Is she intelligent?", d: "She is not intelligent." }, answer: "b" },
+                    { question: "The masculine gender of 'bee' is:", options: { a: "Drone", b: "Stag", c: "Gander", d: "Drake" }, answer: "a" },
+                    { question: "He is good ___ mathematics.", options: { a: "in", b: "of", c: "with", d: "at" }, answer: "d" },
+                    { question: "Which word means 'a list of books'?", options: { a: "Diary", b: "Catalogue", c: "Glossary", d: "Index" }, answer: "b" },
+                    { question: "The comparative degree of 'little' is:", options: { a: "Littler", b: "Less", c: "Lesser", d: "Least" }, answer: "b" },
+                    { question: "I am looking forward ___ you.", options: { a: "to see", b: "to seeing", c: "seeing", d: "see" }, answer: "b" },
+                    { question: "Choose the correct passive form of 'She is singing a song.'", options: { a: "A song is sung by her.", b: "A song was being sung by her.", c: "A song is being sung by her.", d: "A song has been sung by her." }, answer: "c" },
+                    { question: "A person who can speak many languages is a ___.", options: { a: "linguist", b: "polyglot", c: "grammarian", d: "bilingual" }, answer: "b" },
+                    { question: "The earth ___ around the sun.", options: { a: "move", b: "moved", c: "moves", d: "is moving" }, answer: "c" },
+                    { question: "What is the synonym of 'begin'?", options: { a: "End", b: "Stop", c: "Finish", d: "Start" }, answer: "d" }
+                ],
+                "Model Test 3": [
+                    { question: "What is the antonym of 'victory'?", options: { a: "Success", b: "Triumph", c: "Defeat", d: "Win" }, answer: "c" },
+                    { question: "Choose the correct sentence:", options: { a: "One of my friend is a doctor.", b: "One of my friends are a doctor.", c: "One of my friends is a doctor.", d: "One of my friend are doctors." }, answer: "c" },
+                    { question: "He is suffering ___ fever.", options: { a: "by", b: "with", c: "of", d: "from" }, answer: "d" },
+                    { question: "Which one is an abstract noun?", options: { a: "Water", b: "Childhood", c: "Crowd", d: "Book" }, answer: "b" },
+                    { question: "The past tense of 'drive' is:", options: { a: "Drived", b: "Driven", c: "Drove", d: "Droven" }, answer: "c" },
+                    { question: "A group of wolves is called a ___.", options: { a: "herd", b: "pack", c: "flock", d: "swarm" }, answer: "b" },
+                    { question: "Select the correctly spelled word:", options: { a: "Believe", b: "Beleive", c: "Belive", d: "Beleev" }, answer: "a" },
+                    { question: "A place where money is coined is called a ___.", options: { a: "bank", b: "mint", c: "treasury", d: "press" }, answer: "b" },
+                    { question: "'To bell the cat' means:", options: { a: "To love cats", b: "To feed a cat", c: "To take the lead in a dangerous situation", d: "To play with a cat" }, answer: "c" },
+                    { question: "Which of the following is a conjunction?", options: { a: "On", b: "He", c: "Or", d: "Slowly" }, answer: "c" },
+                    { question: "The train had left before I ___ the station.", options: { a: "reach", b: "reached", c: "had reached", d: "was reaching" }, answer: "b" },
+                    { question: "What is the plural form of 'loaf'?", options: { a: "Loafs", b: "Loafes", c: "Loaves", d: "Loave" }, answer: "c" },
+                    { question: "The boy jumped ___ the river.", options: { a: "in", b: "on", c: "to", d: "into" }, answer: "d" },
+                    { question: "He is eligible ___ the post.", options: { a: "to", b: "with", c: "for", d: "in" }, answer: "c" },
+                    { question: "Identify the pronoun in the sentence: 'She gave me a book.'", options: { a: "gave", b: "book", c: "a", d: "She" }, answer: "d" },
+                    { question: "Choose the imperative sentence:", options: { a: "He is honest.", b: "Is he honest?", c: "How honest he is!", d: "Be honest." }, answer: "d" },
+                    { question: "The feminine gender of 'monk' is:", options: { a: "Nun", b: "Witch", c: "Goose", d: "Sow" }, answer: "a" },
+                    { question: "The baby is crying because it is ___.", options: { a: "hunger", b: "hungry", c: "hungrily", d: "hungered" }, answer: "b" },
+                    { question: "Which word means 'that which cannot be read'?", options: { a: "Ineligible", b: "Illegible", c: "Inedible", d: "Invisible" }, answer: "b" },
+                    { question: "The superlative degree of 'bad' is:", options: { a: "Badder", b: "Worse", c: "Worst", d: "Baddest" }, answer: "c" },
+                    { question: "He insisted ___ going there.", options: { a: "in", b: "on", c: "at", d: "for" }, answer: "b" },
+                    { question: "Choose the correct passive form of 'Who did this?'", options: { a: "By whom was this done?", b: "By who was this done?", c: "Whom was this done by?", d: "This was done by who?" }, answer: "a" },
+                    { question: "A person who is new to a profession is a ___.", options: { a: "veteran", b: "expert", c: "novice", d: "professional" }, answer: "c" },
+                    { question: "Honesty ___ the best policy.", options: { a: "is", b: "are", c: "was", d: "were" }, answer: "a" },
+                    { question: "What is the synonym of 'annual'?", options: { a: "Daily", b: "Weekly", c: "Monthly", d: "Yearly" }, answer: "d" }
+                ],
+                "Model Test 4": [
+                    { question: "What is the antonym of 'expand'?", options: { a: "Grow", b: "Shrink", c: "Widen", d: "Extend" }, answer: "b" },
+                    { question: "Choose the correct sentence:", options: { a: "He gave me an one-rupee note.", b: "He gave me a one-rupee note.", c: "He gave me the one-rupee note.", d: "He gave me a one-rupees note." }, answer: "b" },
+                    { question: "He is junior ___ all his colleagues.", options: { a: "than", b: "from", c: "to", d: "of" }, answer: "c" },
+                    { question: "Which one is a common noun?", options: { a: "Dhaka", b: "City", c: "Padma", d: "John" }, answer: "b" },
+                    { question: "The past participle of 'choose' is:", options: { a: "Chose", b: "Choosed", c: "Chosen", d: "Chosing" }, answer: "c" },
+                    { question: "A group of bees is called a ___.", options: { a: "swarm", b: "flock", c: "herd", d: "pack" }, answer: "a" },
+                    { question: "Select the correctly spelled word:", options: { a: "Neccessary", b: "Necesary", c: "Necessary", d: "Necessery" }, answer: "c" },
+                    { question: "The study of mankind is called ___.", options: { a: "Philology", b: "Biology", c: "Psychology", d: "Anthropology" }, answer: "d" },
+                    { question: "'By fits and starts' means:", options: { a: "Regularly", b: "Irregularly", c: "Continuously", d: "Slowly" }, answer: "b" },
+                    { question: "Which of the following is a verb?", options: { a: "Advice", b: "Advise", c: "Practice", d: "Practise" }, answer: "b" },
+                    { question: "If I were a bird, I ___ in the sky.", options: { a: "will fly", b: "would fly", c: "can fly", d: "fly" }, answer: "b" },
+                    { question: "What is the plural form of 'datum'?", options: { a: "Datums", b: "Data", c: "Datas", d: "Datumes" }, answer: "b" },
+                    { question: "He divided the money ___ the two brothers.", options: { a: "among", b: "between", c: "in", d: "with" }, answer: "b" },
+                    { question: "She has no taste ___ music.", options: { a: "in", b: "of", c: "for", d: "at" }, answer: "c" },
+                    { question: "Identify the adverb in the sentence: 'He runs fast.'", options: { a: "He", b: "runs", c: "fast", d: "The" }, answer: "c" },
+                    { question: "Choose the optative sentence:", options: { a: "May you live long.", b: "He is a good man.", c: "What a pity!", d: "Go there." }, answer: "a" },
+                    { question: "The masculine gender of 'duck' is:", options: { a: "Drake", b: "Gander", c: "Stag", d: "Drone" }, answer: "a" },
+                    { question: "Let you and ___ try what we can do.", options: { a: "I", b: "me", c: "myself", d: "my" }, answer: "b" },
+                    { question: "Which word means 'a speech made without preparation'?", options: { a: "Debate", b: "Elocution", c: "Extempore", d: "Lecture" }, answer: "c" },
+                    { question: "The comparative degree of 'beautiful' is:", options: { a: "Beautifuler", b: "More beautiful", c: "Most beautiful", d: "Beauty" }, answer: "b" },
+                    { question: "He died ___ overeating.", options: { a: "by", b: "of", c: "for", d: "from" }, answer: "d" },
+                    { question: "Choose the correct passive form of 'I know him.'", options: { a: "He is known by me.", b: "He was known to me.", c: "He is known to me.", d: "I am known to him." }, answer: "c" },
+                    { question: "A person who eats human flesh is a ___.", options: { a: "Carnivore", b: "Herbivore", c: "Cannibal", d: "Omnivore" }, answer: "c" },
+                    { question: "Time and tide ___ for none.", options: { a: "wait", b: "waits", c: "waiting", d: "is waiting" }, answer: "a" },
+                    { question: "What is the synonym of 'tiny'?", options: { a: "Large", b: "Big", c: "Small", d: "Giant" }, answer: "c" }
+                ],
+                "Model Test 5": [
+                    { question: "What is the antonym of 'friend'?", options: { a: "Ally", b: "Companion", c: "Enemy", d: "Partner" }, answer: "c" },
+                    { question: "Choose the correct sentence:", options: { a: "The sceneries of Cox's Bazar is charming.", b: "The scenery of Cox's Bazar are charming.", c: "The scenery of Cox's Bazar is charming.", d: "The sceneries of Cox's Bazar are charming." }, answer: "c" },
+                    { question: "I prefer tea ___ coffee.", options: { a: "than", b: "from", c: "over", d: "to" }, answer: "d" },
+                    { question: "Which one is a proper noun?", options: { a: "Girl", b: "River", c: "Honesty", d: "Shakespeare" }, answer: "d" },
+                    { question: "The past participle of 'wear' is:", options: { a: "Wore", b: "Worn", c: "Weared", d: "Wear" }, answer: "b" },
+                    { question: "A place where government records are kept is called an ___.", options: { a: "archive", b: "library", c: "museum", d: "attic" }, answer: "a" },
+                    { question: "Select the correctly spelled word:", options: { a: "Committee", b: "Comittee", c: "Commitee", d: "Comitee" }, answer: "a" },
+                    { question: "The life history of a person written by himself is called ___.", options: { a: "biography", b: "autobiography", c: "memoir", d: "history" }, answer: "b" },
+                    { question: "'A man of letters' means:", options: { a: "A postman", b: "A writer", c: "A scholar", d: "A proofreader" }, answer: "c" },
+                    { question: "Which of the following is an interjection?", options: { a: "Alas!", b: "And", c: "Run", d: "Beautiful" }, answer: "a" },
+                    { question: "Walk fast lest you ___ miss the train.", options: { a: "should", b: "would", c: "will", d: "could" }, answer: "a" },
+                    { question: "What is the singular form of 'media'?", options: { a: "Medias", b: "Medium", c: "Mediam", d: "Medie" }, answer: "b" },
+                    { question: "The teacher entered ___ the classroom.", options: { a: "in", b: "to", c: "into", d: "no preposition" }, answer: "d" },
+                    { question: "He is accused ___ theft.", options: { a: "for", b: "of", c: "with", d: "in" }, answer: "b" },
+                    { question: "Identify the adjective in the sentence: 'It is a beautiful day.'", options: { a: "It", b: "day", c: "beautiful", d: "is" }, answer: "c" },
+                    { question: "Choose the assertive sentence:", options: { a: "What a game!", b: "Do you play games?", c: "Don't play games.", d: "He plays games." }, answer: "d" },
+                    { question: "The feminine gender of 'fox' is:", options: { a: "Vixen", b: "Doe", c: "Ewe", d: "Sow" }, answer: "a" },
+                    { question: "Fifty miles ___ a long distance.", options: { a: "are", b: "is", c: "be", d: "were" }, answer: "is" },
+                    { question: "Which word means 'one who is all-powerful'?", options: { a: "Omniscient", b: "Omnipresent", c: "Omnipotent", d: "Omnivore" }, answer: "c" },
+                    { question: "The superlative degree of 'far' is:", options: { a: "Farther", b: "Farthest", c: "Further", d: "Furthest" }, answer: "b" },
+                    { question: "He abstains ___ smoking.", options: { a: "of", b: "from", c: "in", d: "to" }, answer: "b" },
+                    { question: "Choose the correct passive form of 'The boy pleased us.'", options: { a: "We were pleased by the boy.", b: "We were pleased with the boy.", c: "We are pleased with the boy.", d: "We were pleased at the boy." }, answer: "b" },
+                    { question: "A person who does not believe in the existence of God is an ___.", options: { a: "theist", b: "agnostic", c: "atheist", d: "cynic" }, answer: "c" },
+                    { question: "The jury ___ divided in their opinions.", options: { a: "was", b: "is", c: "were", d: "has been" }, answer: "c" },
+                    { question: "What is the synonym of 'correct'?", options: { a: "Wrong", b: "False", c: "Right", d: "Mistake" }, answer: "c" }
+                ]
+            }
+        }
+    };
+
+    // --- APPLICATION LOGIC ---
+    document.addEventListener('DOMContentLoaded', () => {
+        // State variables
+        let currentSubject = '';
+        let currentModelTest = '';
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let timerInterval;
+        let timeLeft = 20 * 60; // 20 minutes in seconds
+        let activeQuestions = [];
+        const apiKey = ""; // Canvas will provide the key
+
+        // DOM Elements
+        const themeToggleButton = document.getElementById('theme-toggle');
+        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+        const modal = document.getElementById('modal');
+        const modalContent = document.getElementById('modal-content');
+        const modalOverlay = document.getElementById('modal-overlay');
+        const screens = document.querySelectorAll('.screen');
+        const subjectSelectionContainer = document.getElementById('subject-selection');
+        const modelTestSelectionContainer = document.getElementById('model-test-selection');
+        const homeScreen = document.getElementById('home-screen');
+        const modelTestScreen = document.getElementById('model-test-screen');
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultScreen = document.getElementById('result-screen');
+        const backToHomeBtn = document.getElementById('back-to-home');
+        const nextBtn = document.getElementById('next-btn');
+        const submitBtn = document.getElementById('submit-btn');
+        const tryAgainBtn = document.getElementById('try-again-btn');
+        const goHomeBtn = document.getElementById('go-home-btn');
+
+        // --- THEME TOGGLE LOGIC ---
+        function updateThemeIcons() {
+            if (document.documentElement.classList.contains('dark')) {
+                themeToggleLightIcon.classList.remove('hidden');
+                themeToggleDarkIcon.classList.add('hidden');
+            } else {
+                themeToggleLightIcon.classList.add('hidden');
+                themeToggleDarkIcon.classList.remove('hidden');
+            }
+        }
+        
+        updateThemeIcons(); // Initial check
+
+        themeToggleButton.addEventListener('click', () => {
+            // toggle theme
+            document.documentElement.classList.toggle('dark');
+            
+            // update localStorage
+            const theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+            localStorage.setItem('color-theme', theme);
+
+            // update icon
+            updateThemeIcons();
+        });
+
+
+        // --- MODAL CONTROLS ---
+        function showModal(content) {
+            modalContent.innerHTML = content;
+            modal.classList.remove('hidden');
+        }
+
+        function hideModal() {
+            modal.classList.add('hidden');
+            modalContent.innerHTML = '';
+        }
+
+        // --- GEMINI API CALLS ---
+        async function callGemini(payload) {
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (!response.ok) {
+                    const errorBody = await response.json();
+                    console.error("API Error Response:", errorBody);
+                    throw new Error(`API request failed with status ${response.status}`);
+                }
+                const result = await response.json();
+                return result;
+            } catch (error) {
+                console.error('Error calling Gemini API:', error);
+                return null;
+            }
+        }
+
+        async function getExplanation(questionData, explanationContainer) {
+            explanationContainer.innerHTML = '<div class="flex justify-center items-center p-4"><div class="loader"></div></div>'; // Show loader
+
+            const { question, options, answer, userAnswer } = questionData;
+            const prompt = `
+                Please explain in simple, clear Bengali why the correct answer to the following multiple-choice question is correct. Also, briefly explain why the user's chosen answer is incorrect.
+
+                Question: "${question}"
+                Options:
+                a) ${options.a}
+                b) ${options.b}
+                c) ${options.c}
+                d) ${options.d}
+
+                The user chose: "${userAnswer ? options[userAnswer] : 'No answer'}" which is incorrect.
+                The correct answer is: "${options[answer]}"
+
+                Provide a clear and concise explanation for why "${options[answer]}" is the correct choice and why the user's choice was wrong. Structure the response with headings.
+            `;
+            
+            const payload = { contents: [{ role: "user", parts: [{ text: prompt }] }] };
+            const result = await callGemini(payload);
+
+            if (result && result.candidates && result.candidates[0].content.parts[0].text) {
+                explanationContainer.innerHTML = result.candidates[0].content.parts[0].text.replace(/\n/g, '<br>');
+            } else {
+                explanationContainer.innerHTML = '<p class="text-red-500 text-center">দুঃখিত, ব্যাখ্যা পাওয়া যায়নি। আবার চেষ্টা করুন।</p>';
+            }
+        }
+
+        async function generateNewTest() {
+            const modalHeader = `<div class="flex justify-between items-center mb-4"><h3 class="text-xl font-bold text-slate-900 dark:text-white">✨ নতুন টেস্ট তৈরি হচ্ছে...</h3></div>`;
+            const modalBody = `<p class="text-slate-600 dark:text-slate-400">আপনার জন্য ${currentSubject} বিষয়ে নতুন প্রশ্ন তৈরি করা হচ্ছে। অনুগ্রহ করে অপেক্ষা করুন...</p><div class="loader mx-auto mt-6"></div>`;
+            showModal(modalHeader + modalBody);
+
+            const prompt = `Generate 5 new high-quality multiple-choice questions for the subject "${currentSubject}". The questions should be in the same language and style as the existing questions for this subject. Provide the output in a valid JSON array format. Each object in the array must have "question" (string), "options" (an object with keys "a", "b", "c", "d"), and "answer" (a string key "a", "b", "c", or "d"). Ensure the JSON is well-formed.`;
+            
+            const schema = {
+                type: "ARRAY",
+                items: {
+                    type: "OBJECT",
+                    properties: {
+                        "question": { "type": "STRING" },
+                        "options": {
+                            "type": "OBJECT",
+                            "properties": {
+                                "a": { "type": "STRING" },
+                                "b": { "type": "STRING" },
+                                "c": { "type": "STRING" },
+                                "d": { "type": "STRING" }
+                            },
+                            "required": ["a", "b", "c", "d"]
+                        },
+                        "answer": { "type": "STRING" }
+                    },
+                    "required": ["question", "options", "answer"]
+                }
+            };
+
+            const payload = {
+                contents: [{ role: "user", parts: [{ text: prompt }] }],
+                generationConfig: {
+                    responseMimeType: "application/json",
+                    responseSchema: schema
+                }
+            };
+
+            const result = await callGemini(payload);
+
+            if (result && result.candidates && result.candidates[0].content.parts[0].text) {
+                try {
+                    const newQuestions = JSON.parse(result.candidates[0].content.parts[0].text);
+                    displayGeneratedTest(newQuestions);
+                } catch(e) {
+                    console.error("Error parsing generated questions:", e);
+                     modalContent.innerHTML += '<p class="text-red-500 mt-4">প্রশ্ন তৈরি করতে একটি সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন।</p>';
+                }
+            } else {
+                 modalContent.innerHTML += '<p class="text-red-500 mt-4">দুঃখিত, নতুন প্রশ্ন তৈরি করা যায়নি। আবার চেষ্টা করুন।</p>';
+            }
+        }
+        
+        function displayGeneratedTest(questions) {
+            let questionsHtml = questions.map((q, i) => `
+                <div class="mb-4 p-4 bg-slate-100 dark:bg-slate-700 rounded-lg border border-slate-200 dark:border-slate-600">
+                    <p class="font-semibold text-slate-800 dark:text-slate-100">${i+1}. ${q.question}</p>
+                    <ul class="list-none mt-2 text-slate-600 dark:text-slate-300 space-y-1">
+                        <li><span class="font-bold">a)</span> ${q.options.a}</li>
+                        <li><span class="font-bold">b)</span> ${q.options.b}</li>
+                        <li><span class="font-bold">c)</span> ${q.options.c}</li>
+                        <li><span class="font-bold">d)</span> ${q.options.d}</li>
+                    </ul>
+                    <p class="text-sm mt-2 pt-2 border-t border-slate-200 dark:border-slate-600"><b>সঠিক উত্তর:</b> <span class="text-green-600 font-bold">${q.answer.toUpperCase()}</span></p>
+                </div>
+            `).join('');
+
+            const modalHeader = `
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white">✨ আপনার জন্য তৈরি নতুন টেস্ট</h3>
+                    <button id="close-modal-btn" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 text-2xl leading-none">&times;</button>
+                </div>
+            `;
+            const buttons = `
+                <div class="flex justify-end gap-3 mt-6">
+                    <button id="start-generated-test-btn" class="btn btn-primary bg-green-600 hover:bg-green-700">এই টেস্ট শুরু করুন</button>
+                </div>
+            `;
+            
+            showModal(modalHeader + questionsHtml + buttons);
+            
+            document.getElementById('start-generated-test-btn').onclick = () => {
+                hideModal();
+                startTest("AI Generated Test", questions);
+            };
+            document.getElementById('close-modal-btn').onclick = hideModal;
+        }
+
+
+        // --- INITIALIZATION ---
+        function init() {
+            populateSubjects();
+            attachEventListeners();
+            showScreen('home-screen');
+        }
+
+        // --- SCREEN NAVIGATION ---
+        function showScreen(screenId) {
+            screens.forEach(screen => {
+                screen.classList.remove('active');
+            });
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        // --- DATA POPULATION ---
+        function populateSubjects() {
+            subjectSelectionContainer.innerHTML = '';
+            for (const subject in mcqData) {
+                const subjectCard = `
+                    <div class="card bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg cursor-pointer" data-subject="${subject}">
+                        <div class="flex items-center">
+                            <span class="text-5xl mr-5">${mcqData[subject].icon}</span>
+                            <div>
+                                <h2 class="text-2xl font-bold text-slate-900 dark:text-white">${subject}</h2>
+                                <p class="text-slate-500 dark:text-slate-400">${Object.keys(mcqData[subject].tests).length} মডেল টেস্ট</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                subjectSelectionContainer.innerHTML += subjectCard;
+            }
+        }
+
+        function populateModelTests(subject) {
+            currentSubject = subject;
+            document.getElementById('model-test-title').innerText = `${subject} মডেল টেস্ট`;
+            modelTestSelectionContainer.innerHTML = '';
+            
+            const tests = mcqData[subject].tests;
+            for (const testName in tests) {
+                const testButton = `
+                    <button class="model-test-btn card bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-semibold py-6 px-2 rounded-lg shadow-md flex items-center justify-center text-center" data-test="${testName}">
+                        ${testName}
+                    </button>
+                `;
+                modelTestSelectionContainer.innerHTML += testButton;
+            }
+            
+            const geminiButton = `
+                <button id="generate-new-test-btn" class="gemini-btn card text-white font-semibold py-6 px-2 rounded-lg shadow-lg flex flex-col items-center justify-center text-center">
+                    <span class="text-3xl mb-1">✨</span>
+                    <span class="leading-tight">নতুন টেস্ট তৈরি করুন</span>
+                </button>
+            `;
+            modelTestSelectionContainer.insertAdjacentHTML('afterbegin', geminiButton);
+            
+            showScreen('model-test-screen');
+            document.getElementById('generate-new-test-btn').addEventListener('click', generateNewTest);
+        }
+
+        // --- QUIZ LOGIC ---
+        function startTest(testName, questionsArray = null) {
+            currentModelTest = testName;
+            currentQuestionIndex = 0;
+            activeQuestions = questionsArray || mcqData[currentSubject].tests[currentModelTest];
+            
+            if (!questionsArray) {
+                const storageKey = `answers_${currentSubject}_${currentModelTest}`;
+                userAnswers = JSON.parse(localStorage.getItem(storageKey)) || [];
+            } else {
+                userAnswers = [];
+            }
+            
+            document.getElementById('quiz-subject-title').innerText = `${currentSubject} - ${currentModelTest}`;
+            showScreen('quiz-screen');
+            displayQuestion();
+            startTimer();
+        }
+
+        function displayQuestion() {
+            const question = activeQuestions[currentQuestionIndex];
+
+            document.getElementById('question-counter').innerText = `প্রশ্ন ${currentQuestionIndex + 1} / ${activeQuestions.length}`;
+            const progress = ((currentQuestionIndex + 1) / activeQuestions.length) * 100;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+
+            document.getElementById('question-text').innerText = question.question;
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            for (const key in question.options) {
+                const optionButton = document.createElement('button');
+                optionButton.className = 'option-btn w-full text-left p-4 border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700';
+                optionButton.dataset.option = key;
+                optionButton.innerHTML = `<span class="font-bold mr-3">${key.toUpperCase()}.</span> ${question.options[key]}`;
+                optionsContainer.appendChild(optionButton);
+            }
+
+            if (userAnswers[currentQuestionIndex] !== undefined && userAnswers[currentQuestionIndex] !== null) {
+                lockQuestion(userAnswers[currentQuestionIndex]);
+            } else {
+                 optionsContainer.querySelectorAll('.option-btn').forEach(btn => {
+                    btn.addEventListener('click', () => selectOption(btn.dataset.option));
+                });
+            }
+
+            if (currentQuestionIndex === activeQuestions.length - 1) {
+                nextBtn.classList.add('hidden');
+                submitBtn.classList.remove('hidden');
+            } else {
+                nextBtn.classList.remove('hidden');
+                submitBtn.classList.add('hidden');
+            }
+        }
+        
+        function selectOption(selectedKey) {
+            userAnswers[currentQuestionIndex] = selectedKey;
+            
+            if (currentModelTest !== "AI Generated Test") {
+                const storageKey = `answers_${currentSubject}_${currentModelTest}`;
+                localStorage.setItem(storageKey, JSON.stringify(userAnswers));
+            }
+            
+            lockQuestion(selectedKey);
+        }
+
+        function lockQuestion(selectedKey) {
+            document.querySelectorAll('#options-container .option-btn').forEach(btn => {
+                if (btn.dataset.option === selectedKey) {
+                    btn.classList.add('selected');
+                }
+                btn.disabled = true;
+            });
+        }
+
+        function nextQuestion() {
+            if (userAnswers[currentQuestionIndex] === undefined || userAnswers[currentQuestionIndex] === null) {
+                showModal(`<div class="text-center"><h3 class="text-lg font-bold mb-4 text-slate-900 dark:text-white">মনোযোগ দিন</h3><p class="text-slate-600 dark:text-slate-400">অনুগ্রহ করে আগে একটি উত্তর নির্বাচন করুন।</p><button onclick="hideModal()" class="btn btn-primary mt-4">ঠিক আছে</button></div>`);
+                return;
+            }
+            currentQuestionIndex++;
+            displayQuestion();
+        }
+
+        function submitTest() {
+            clearInterval(timerInterval);
+            calculateAndShowResults();
+            
+            if (currentModelTest !== "AI Generated Test") {
+                const storageKey = `answers_${currentSubject}_${currentModelTest}`;
+                localStorage.removeItem(storageKey);
+            }
+        }
+
+        // --- TIMER LOGIC ---
+        function startTimer() {
+            timeLeft = 20 * 60;
+            const timerEl = document.getElementById('timer');
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                timerEl.innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    showModal(`<div class="text-center"><h3 class="text-lg font-bold mb-4 text-slate-900 dark:text-white">সময় শেষ!</h3><p class="text-slate-600 dark:text-slate-400">আপনার টেস্টটি স্বয়ংক্রিয়ভাবে জমা দেওয়া হবে।</p><button onclick="hideModal(); submitTest();" class="btn btn-primary mt-4">ফলাফল দেখুন</button></div>`);
+                }
+            }, 1000);
+        }
+
+        // --- RESULT LOGIC ---
+        function calculateAndShowResults() {
+            let correctCount = 0;
+            
+            const reviewContainer = document.getElementById('result-review');
+            reviewContainer.innerHTML = '';
+
+            activeQuestions.forEach((q, index) => {
+                const userAnswer = userAnswers[index];
+                const isCorrect = userAnswer === q.answer;
+                if (isCorrect) {
+                    correctCount++;
+                }
+
+                const reviewBlock = document.createElement('div');
+                reviewBlock.className = `result-question-review bg-slate-100 dark:bg-slate-800/50 p-4 rounded-lg`;
+                
+                let optionsHtml = '<div class="space-y-2 mt-4">';
+                for(const key in q.options) {
+                    let optionClass = 'option-btn flex items-center w-full text-left p-3 border rounded-md bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600';
+                    let icon = '';
+                    if (key === q.answer) {
+                        optionClass += ' correct';
+                        icon = `<svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>`;
+                    } else if (key === userAnswer && !isCorrect) {
+                        optionClass += ' wrong';
+                        icon = `<svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.697a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>`;
+                    }
+                    optionsHtml += `<button class="${optionClass}" disabled>${icon}<span class="font-bold mr-2">${key.toUpperCase()}.</span> ${q.options[key]}</button>`;
+                }
+                optionsHtml += '</div>';
+
+                const explanationSectionId = `explanation-${index}`;
+                const geminiButtonHtml = !isCorrect ? `
+                    <div class="mt-4">
+                        <button class="explain-btn gemini-btn text-sm font-semibold py-2 px-4 rounded-md" data-question-index="${index}">✨ উত্তর ব্যাখ্যা করুন</button>
+                    </div>
+                    <div id="${explanationSectionId}" class="text-sm mt-3 p-3 bg-white dark:bg-slate-700/50 rounded-md border border-slate-200 dark:border-slate-600"></div>
+                ` : '';
+
+                reviewBlock.innerHTML = `
+                    <p class="font-semibold text-slate-800 dark:text-slate-100">${index + 1}. ${q.question}</p>
+                    ${optionsHtml}
+                    ${geminiButtonHtml}
+                `;
+                reviewContainer.appendChild(reviewBlock);
+                 if (isCorrect) {
+                    reviewBlock.querySelector('.option-btn.correct').insertAdjacentHTML('beforeend', `<span class="ml-auto text-sm font-bold">সঠিক</span>`);
+                } else if (userAnswer) {
+                    reviewBlock.querySelector('.option-btn.wrong').insertAdjacentHTML('beforeend', `<span class="ml-auto text-sm font-bold">আপনার উত্তর</span>`);
+                }
+
+            });
+
+            const totalQuestions = activeQuestions.length;
+            const wrongCount = totalQuestions - correctCount;
+            
+            document.getElementById('correct-answers').innerText = correctCount;
+            document.getElementById('wrong-answers').innerText = wrongCount;
+            document.getElementById('total-score').innerText = `${correctCount} / ${totalQuestions}`;
+            document.getElementById('result-subtitle').innerText = `আপনি ${currentSubject} বিষয়ের ${currentModelTest} সম্পন্ন করেছেন।`;
+
+            showScreen('result-screen');
+            
+            document.querySelectorAll('.explain-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const btn = e.currentTarget;
+                    const qIndex = btn.dataset.questionIndex;
+                    const questionData = {
+                        ...activeQuestions[qIndex],
+                        userAnswer: userAnswers[qIndex]
+                    };
+                    const explanationContainer = document.getElementById(`explanation-${qIndex}`);
+                    btn.parentElement.style.display = 'none'; // Hide button's container
+                    getExplanation(questionData, explanationContainer);
+                });
+            });
+        }
+
+        // --- EVENT LISTENERS ---
+        function attachEventListeners() {
+            subjectSelectionContainer.addEventListener('click', (e) => {
+                const subjectCard = e.target.closest('.card');
+                if (subjectCard && !subjectCard.matches('.gemini-btn')) {
+                    populateModelTests(subjectCard.dataset.subject);
+                }
+            });
+
+            modelTestSelectionContainer.addEventListener('click', (e) => {
+                const testButton = e.target.closest('.model-test-btn');
+                if (testButton) {
+                    startTest(testButton.dataset.test);
+                }
+            });
+
+            backToHomeBtn.addEventListener('click', () => showScreen('home-screen'));
+            nextBtn.addEventListener('click', nextQuestion);
+            submitBtn.addEventListener('click', submitTest);
+            
+            tryAgainBtn.addEventListener('click', () => {
+                populateModelTests(currentSubject);
+            });
+
+            goHomeBtn.addEventListener('click', () => {
+                showScreen('home-screen');
+            });
+
+            modalOverlay.addEventListener('click', hideModal);
+        }
+
+        // Let's go!
+        init();
+    });
+    </script>
+
+
+</body></html>
